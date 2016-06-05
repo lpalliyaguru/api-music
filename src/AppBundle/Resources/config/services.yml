@@ -1,0 +1,12 @@
+parameters:
+  class.manager.artist : AppBundle\Service\Manager\ArtistManager
+  class.manager.album : AppBundle\Service\Manager\AlbumManager
+
+services:
+    manager.artist :
+        class : %class.manager.artist%
+        arguments : [@doctrine_mongodb]
+
+    manager.album :
+        class : %class.manager.album%
+        arguments : [@doctrine_mongodb]

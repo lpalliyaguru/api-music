@@ -17,3 +17,16 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    mongo_database_host: 'mongodb://localhost:27017/e2e-api'
+    mongo_database_name: e2e-api
+    mongo_database_username: admin
+    mongo_database_password: admin
+    app_main_web_site: 'http://e2e.loc'
+    accepted_http_methods: 'GET, POST, PUT, OPTIONS, DELETE, UNLINK'
+    env: LOCAL
+    amazon_aws_key: AKIAIGD737Y6G3QOS72A
+    amazon_aws_secret_key: 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
+    amazon_s3_bucket_name: etoeproperty
+    amazon_s3_base_url: 'https://s3-ap-southeast-1.amazonaws.com/etoeproperty/assets'
+    encrypt_salt: $w34asl@yui
+    jwt_key: 'abadefghijkl'

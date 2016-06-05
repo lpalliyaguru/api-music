@@ -1,0 +1,9 @@
+Albums :
+  type: rest
+  resource: "ApiBundle:Album"
+  name_prefix:  api_
+
+Artist :
+  type: rest
+  resource: "ApiBundle:Artist"
+  name_prefix:  api_
