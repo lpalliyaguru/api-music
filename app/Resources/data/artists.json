@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Chamara Weerasinghe",
+    "artistId": "chamara-weerasinghe",
+    "genre": [
+      "Classic"
+    ],
+    "about": "Most famous young singer",
+    "image": "dist/images/artists/artist4.jpg"
+  }
+]

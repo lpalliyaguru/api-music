@@ -1,0 +1,195 @@
+[
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Devathavee.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Devathavee Oba Mage",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+  "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Gurugedarta.MP3",
+  "image" : "dist/images/songs/song5.jpg",
+  "displayName": "Gurugedarta Hemada Ena",
+  "type": "audio/mpeg",
+  "artist": "chamara-weerasinghe",
+  "album": "devathaviye",
+  "tags": [
+    "Classic",
+    "Rock"
+  ]
+  },
+  {
+  "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Himi_sandu_Ahimiwa.MP3",
+  "image" : "dist/images/songs/song5.jpg",
+  "displayName": "Himi sandu Ahimiwa Hadana",
+  "type": "audio/mpeg",
+  "artist": "chamara-weerasinghe",
+  "album": "devathaviye",
+  "tags": [
+    "Classic",
+    "Rock"
+  ]
+},
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Hummane.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Hummane Dura Ahasata",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Issangoda.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Ussangoda Kadu Mudunata",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/kiri-wehere.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Kiri Wehere Maluwa Wate",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Kirinda.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Sudu Rala Gal Kula - Kirinda",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Kumuduliye_Sanda_eliye.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Kumudu Liye Sada eliye",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Mahalu-madame.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Mahalu Madame Kansiyata",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Obe-athin.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Obe Athin Mal Mahala",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+  "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Palamu-Pemwatha.MP3",
+  "image" : "dist/images/songs/song5.jpg",
+  "displayName": "Palamu Pemwatha",
+  "type": "audio/mpeg",
+  "artist": "chamara-weerasinghe",
+  "album": "devathaviye",
+  "tags": [
+    "Classic",
+    "Rock"
+  ]
+},
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Punchi-Kamare.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Dubala Eliya Athi Punchi Kamare",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Thathe.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Sayure Ho Hada Ahena Manaye",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  }
+  ,{
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Thathe.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Gedara Budun Kiyala Obe Depa Wadinna",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Tiutikira.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Kuitikira Muwa Thawarana",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  },
+  {
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Wanawadule.MP3",
+    "image" : "dist/images/songs/song5.jpg",
+    "displayName": "Wana Wadule Wasanthayata",
+    "type": "audio/mpeg",
+    "artist": "chamara-weerasinghe",
+    "album": "devathaviye",
+    "tags": [
+      "Classic",
+      "Rock"
+    ]
+  }
+
+]

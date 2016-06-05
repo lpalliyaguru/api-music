@@ -22,21 +22,29 @@ class SongFixture implements FixtureInterface, ContainerAwareInterface
     {
         $artistManager = $this->container->get('manager.artist');
         $albumManager = $this->container->get('manager.album');
-        $artist = $artistManager->getOneByArtistId('divulgane');
-        $album = $albumManager->getOneByAlbumId('asata-asuwana-maaime');
 
-        $song = new Song();
-        $song->setArtist('divulgane');
-        $song->setDisplayName('King of the mood - Here comes the sun');
-        $song->setTags(array('Classic', 'Rock'));
-        $song->setUrl('http://ccmixter.org/content/unreal_dm/unreal_dm_-_Recycle_This.mp3');
-        $song->setType('audio/mpeg');
-        $song->setArtist($artist);
-        $song->setAlbum($album);
-        $manager->persist($song);
-        $meta = new Meta();
-        $meta->created = $meta->updated = new \DateTime();
-        $song->setMeta($meta);
+        $dataDir = $this->container->getParameter('kernel.root_dir') . '\Resources\data';
+        $songs = file_get_contents(sprintf('%s\%s', $dataDir, 'songs.json'));
+        $songs = json_decode($songs, true);
+
+        foreach($songs as $songData) {
+            $artist = $artistManager->getOneByArtistId($songData['artist']);
+            $album = $albumManager->getOneByAlbumId($songData['album']);
+
+            $song = new Song();
+            $song->setDisplayName($songData['displayName']);
+            $song->setTags($songData['tags']);
+            $song->setUrl($songData['url']);
+            $song->setType($songData['type']);
+            $song->setArtist($artist);
+            $song->setAlbum($album);
+
+            $meta = new Meta();
+            $meta->created = $meta->updated = new \DateTime();
+            $song->setMeta($meta);
+            $manager->persist($song);
+        }
+
         $manager->flush();
     }
 }

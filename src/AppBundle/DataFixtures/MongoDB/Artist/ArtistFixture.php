@@ -21,16 +21,22 @@ class ArtistFixture implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-        $artist = new Artist();
-        $artist->setName('Divulgane');
-        $artist->setAbout('Classical singer, music director');
-        $artist->setGenre(array('Classic'));
-        $artist->setImage('dist/images/artists/artist4.jpg');
-        $artist->setArtistId('divulgane');
-        $meta = new Meta();
-        $meta->created = $meta->updated = new \DateTime();
-        $artist->setMeta($meta);
-        $manager->persist($artist);
+        $dataDir = $this->container->getParameter('kernel.root_dir') . '\Resources\data';
+        $artists = file_get_contents(sprintf('%s\%s', $dataDir, 'artists.json'));
+        $artists = json_decode($artists, true);
+        foreach ($artists as $artistData) {
+            $artist = new Artist();
+            $artist->setName($artistData['name']);
+            $artist->setAbout($artistData['about']);
+            $artist->setGenre($artistData['genre']);
+            $artist->setImage($artistData['image']);
+            $artist->setArtistId($artistData['artistId']);
+            $meta = new Meta();
+            $meta->created = $meta->updated = new \DateTime();
+            $artist->setMeta($meta);
+            $manager->persist($artist);
+        }
+
         $manager->flush();
     }
 }

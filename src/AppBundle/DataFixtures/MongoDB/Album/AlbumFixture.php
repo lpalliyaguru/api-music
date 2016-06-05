@@ -22,19 +22,26 @@ class AlbumFixture implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
+        $dataDir = $this->container->getParameter('kernel.root_dir') . '\Resources\data';
+        $albums = file_get_contents(sprintf('%s\%s', $dataDir, 'albums.json'));
+        $albums = json_decode($albums, true);
         $artistManager = $this->container->get('manager.artist');
-        $artist = $artistManager->getOneByArtistId('divulgane');
-        $album = new Album();
-        $album->setName('Asata asuwana maime');
-        $album->setAbout('Asata asuwana maime is one of the best album of Karunaratne Divulgane');
-        $album->setGenre(array('Classic'));
-        $album->setImage('dist/images/albums/album1.jpg');
-        $album->setAlbumId('asata-asuwana-maaime');
-        $album->setArtist($artist);
-        $meta = new Meta();
-        $meta->created = $meta->updated = new \DateTime();
-        $album->setMeta($meta);
-        $manager->persist($album);
+
+        foreach ($albums as $albumData) {
+            $artist = $artistManager->getOneByArtistId($albumData['artist']);
+            $album = new Album();
+            $album->setName($albumData['name']);
+            $album->setAbout($albumData['about']);
+            $album->setGenre($albumData['genre']);
+            $album->setImage($albumData['image']);
+            $album->setAlbumId($albumData['albumId']);
+            $album->setArtist($artist);
+            $meta = new Meta();
+            $meta->created = $meta->updated = new \DateTime();
+            $album->setMeta($meta);
+            $manager->persist($album);
+        }
+
         $manager->flush();
     }
 }

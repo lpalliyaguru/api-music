@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Devathaviye",
+    "albumId": "devathaviye",
+    "about": "One of the most popular album of chamara weerasinghe",
+    "genre": [
+      "Classic"
+    ],
+    "artist": "chamara-weerasinghe",
+    "image": "dist/images/albums/album1.jpg"
+  }
+]
