@@ -9,6 +9,19 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    http_accept_headers:
+        - x-requested-with
+        - content-type
+        - authentication
+        - accept
+        - origin
+        - Authorization
+        - x-csrftoken
+        - user-agent
+        - accept-encoding
+        - Content-Range
+        - Content-Disposition
+        - Content-Description
 
 framework:
     #esi:             ~

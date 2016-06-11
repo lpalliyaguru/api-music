@@ -1,12 +1,59 @@
 parameters:
-  class.manager.artist : AppBundle\Service\Manager\ArtistManager
-  class.manager.album : AppBundle\Service\Manager\AlbumManager
+  class.manager.artist        : AppBundle\Service\Manager\ArtistManager
+  class.manager.album         : AppBundle\Service\Manager\AlbumManager
+  class.manager.follower      : AppBundle\Service\Manager\FollowerManager
+  class.manager.user          : AppBundle\Service\Manager\UserManager
+  class.manager.song          : AppBundle\Service\Manager\SongManager
+  class.manager.token         : AppBundle\Service\Manager\ApiTokenManager
+  class.api.response.listener : AppBundle\Listener\ResponseListener
+  class.encryptor             : AppBundle\Service\Encryptor
+  class.app.user.provider     : AppBundle\Security\User\ApiUserProvider
+  app_secure_api.security.authentication.provider.class: AppBundle\Security\Authentication\Provider\ApiProvider
+  app_secure_api.security.authentication.listener.class: AppBundle\Security\Firewall\ApiListener
 
 services:
     manager.artist :
         class : %class.manager.artist%
         arguments : [@doctrine_mongodb]
 
+    manager.follower :
+        class : %class.manager.follower%
+        arguments : [@doctrine_mongodb, @manager.user]
+
     manager.album :
         class : %class.manager.album%
         arguments : [@doctrine_mongodb]
+
+    listner.api:
+        class: %class.api.response.listener%
+        arguments: [%app_main_web_site%, %accepted_http_methods%, %http_accept_headers%]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    manager.user:
+        class : %class.manager.user%
+        arguments: [@doctrine_mongodb]
+
+    manager.song:
+        class : %class.manager.song%
+        arguments: [@doctrine_mongodb]
+
+    manager.api_token:
+        class : %class.manager.token%
+        arguments: [@doctrine_mongodb, %jwt_key%]
+
+    app.encryptor:
+        class: %class.encryptor%
+        arguments: [%encrypt_salt%]
+
+    app.user.provider:
+        class: %class.app.user.provider%
+        arguments: [@doctrine_mongodb, @manager.user, @manager.api_token]
+
+    secure_api.security.authentication.provider:
+        class: %app_secure_api.security.authentication.provider.class%
+        arguments: [@app.user.provider]
+
+    secure_api.security.authentication.listener:
+        class: %app_secure_api.security.authentication.listener.class%
+        arguments: ["@security.context", "@security.authentication.manager"]

@@ -7,3 +7,13 @@ Artist :
   type: rest
   resource: "ApiBundle:Artist"
   name_prefix:  api_
+
+Song :
+  type: rest
+  resource: "ApiBundle:Song"
+  name_prefix:  api_
+
+Auth :
+  type: rest
+  resource: "ApiBundle:Auth"
+  name_prefix:  api_

@@ -11,8 +11,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use AppBundle\Document\Property;
-
 /**
  * @ODM\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repository\UserRepository")
@@ -39,14 +37,9 @@ class User implements BaseUserInterface
 
     /**
      * @ODM\String
-     * @SerializedName("firstName")
+     * @SerializedName("name")
      */
-    private $firstName;
-
-    /**
-     * @SerializedName("lastName")
-     */
-    private $lastName;
+    private $name;
 
     /**
      * @ODM\String
@@ -55,25 +48,9 @@ class User implements BaseUserInterface
 
     /**
      * @ODM\String
-     *
-     */
-    private $type;
-
-    /**
-     * @ODM\String
      * @SerializedName("profilePic")
      */
     private $profilePic;
-
-    /**
-     * @ODM\String
-     */
-    private $phone;
-
-    /**
-     * @ODM\String
-     */
-    private $address;
 
     /**
      * @ODM\String
@@ -96,11 +73,6 @@ class User implements BaseUserInterface
      * @ODM\Date
      */
     private $updated;
-
-    /**
-     * @ODM\ReferenceMany(targetDocument="Property", mappedBy="owner")
-     */
-    private $properties;
 
     /**
      * @ODM\Collection
@@ -140,9 +112,9 @@ class User implements BaseUserInterface
      * @param string $name
      * @return User
      */
-    public function setFirstName($fname)
+    public function setName($name)
     {
-        $this->firstName = $fname;
+        $this->name = $name;
 
         return $this;
     }
@@ -152,32 +124,9 @@ class User implements BaseUserInterface
      *
      * @return string
      */
-    public function getFirstName()
+    public function getName()
     {
-        return $this->firstName;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return User
-     */
-    public function setLastName($lname)
-    {
-        $this->lastName = $lname;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
+        return $this->name;
     }
 
     /**
@@ -209,29 +158,6 @@ class User implements BaseUserInterface
      * @param string $email
      * @return User
      */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return User
-     */
     public function setProfilePic($profilePic)
     {
         $this->profilePic = $profilePic;
@@ -247,52 +173,6 @@ class User implements BaseUserInterface
     public function getProfilePic()
     {
         return $this->profilePic;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return User
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return User
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getAddress()
-    {
-        return $this->address;
     }
 
     /**
@@ -411,39 +291,12 @@ class User implements BaseUserInterface
     }
 
     /**
-     * Get Properties
-     *
-     * @return array
-     */
-    public function getProperties()
-    {
-        return $this->properties;
-    }
-
-    /**
-     * Set Properties
-     *
-     * @param array $properties
-     * @return User
-     */
-    public function setProperties($properties)
-    {
-        $this->properties = $properties;
-
-        return $this;
-    }
-
-    /**
      * @ODM\PrePersist
      */
     public function prePersist()
     {
         if($this->created == null) {
             $this->created = new \DateTime(null);
-        }
-
-        if(\is_null($this->username)) {
-            $this->username = strtolower($this->email) . '-' . rand(100, 100000);
         }
     }
 

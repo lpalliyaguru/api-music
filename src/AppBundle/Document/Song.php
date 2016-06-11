@@ -27,6 +27,7 @@ class Song
 
     /**
      * @ODM\String
+	 * @SerializedName("src")
      */
     protected $url;
 
@@ -56,6 +57,11 @@ class Song
     protected $tags;
 
     /**
+     * @ODM\Int
+     */
+    protected $numOfPlayed;
+
+    /**
      * @ODM\EmbedOne(targetDocument="Meta")
      */
     protected $__meta;
@@ -71,7 +77,7 @@ class Song
         return $this->id;
     }
 
-    public function seImage($image)
+    public function setImage($image)
     {
         $this->image = $image;
         return $this;
@@ -147,6 +153,17 @@ class Song
     public function getAlbum()
     {
         return $this->album;
+    }
+
+    public function setNumOfPlayed($number)
+    {
+        $this->numOfPlayed = $number;
+        return $this;
+    }
+
+    public function getNumOfPlayed()
+    {
+        return $this->numOfPlayed;
     }
 
     public function setMeta($meta)

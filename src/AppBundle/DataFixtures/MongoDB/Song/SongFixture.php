@@ -24,7 +24,7 @@ class SongFixture implements FixtureInterface, ContainerAwareInterface
         $albumManager = $this->container->get('manager.album');
 
         $dataDir = $this->container->getParameter('kernel.root_dir') . '\Resources\data';
-        $songs = file_get_contents(sprintf('%s\%s', $dataDir, 'songs.json'));
+        $songs = file_get_contents(sprintf('%s\%s', $dataDir, 'song_divulgane.json'));
         $songs = json_decode($songs, true);
 
         foreach($songs as $songData) {
@@ -38,6 +38,7 @@ class SongFixture implements FixtureInterface, ContainerAwareInterface
             $song->setType($songData['type']);
             $song->setArtist($artist);
             $song->setAlbum($album);
+			$song->setImage($songData['image']);
 
             $meta = new Meta();
             $meta->created = $meta->updated = new \DateTime();

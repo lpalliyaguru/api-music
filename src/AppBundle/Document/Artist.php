@@ -43,15 +43,35 @@ class Artist
      */
     protected $image;
 
+	/**
+     * @ODM\String
+     */
+    protected $banner;
+
     /**
      * @ODM\EmbedOne(targetDocument="Meta")
      */
     protected $__meta;
 
     /**
+     * @ODM\EmbedOne(targetDocument="Social")
+     */
+    protected $social;
+
+    /**
      * @ODM\ReferenceMany(targetDocument="Song", mappedBy="artist")
      */
     private $songs;
+
+    /**
+     * @ODM\Int
+     */
+    private $followers;
+
+	/**
+     * @ODM\ReferenceMany(targetDocument="Album", mappedBy="artist")
+     */
+    private $albums;
 
     public function setId($id)
     {
@@ -130,6 +150,17 @@ class Artist
         return $this;
     }
 
+	public function getBanner()
+    {
+        return $this->banner;
+    }
+
+    public function setBanner($banner)
+    {
+        $this->banner = $banner;
+        return $this;
+    }
+
     public function setMeta($meta)
     {
         $this->__meta = $meta;
@@ -139,5 +170,27 @@ class Artist
     public function getMeta()
     {
         return $this->__meta;
+    }
+
+    public function getAlbums()
+    {
+        return $this->albums;
+    }
+
+    public function setAlbums($albums)
+    {
+        $this->albums = $albums;
+        return $this;
+    }
+
+    public function getFollowers()
+    {
+        return $this->followers;
+    }
+
+    public function setFollowers($followers)
+    {
+        $this->followers = $followers;
+        return $this;
     }
 }

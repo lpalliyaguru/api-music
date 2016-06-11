@@ -24,4 +24,11 @@ class ArtistManager
     {
         return $this->repository->findAll();
     }
+
+    public function update($artist)
+    {
+        $this->documentManager->persist($artist);
+        $this->documentManager->flush();
+        return true;
+    }
 }

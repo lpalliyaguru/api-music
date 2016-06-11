@@ -5,7 +5,7 @@ namespace AppBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\SerializedName;
-
+use JMS\Serializer\Annotation\Type;
 /**
  * @ODM\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repository\ArtistRepository")
@@ -39,14 +39,21 @@ class Album
     protected $genre;
 
     /**
-     * @ODM\ReferenceOne(targetDocument="Artist", inversedBy="songs")
+     * @ODM\ReferenceOne(targetDocument="Artist", inversedBy="album")
      */
     protected $artist;
+	
+	/**
+     * @ODM\Date
+	 * @Type("DateTime")
+     */
+    protected $release;
 
     /**
      * @ODM\ReferenceMany(targetDocument="Song", mappedBy="album")
      */
     private $songs;
+	
 
     /**
      * @ODM\String
