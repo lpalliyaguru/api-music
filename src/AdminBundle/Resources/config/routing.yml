@@ -1,0 +1,4 @@
+Default:
+    resource: "@AdminBundle/Controller/DefaultController.php"
+    type:     annotation
+    prefix : /

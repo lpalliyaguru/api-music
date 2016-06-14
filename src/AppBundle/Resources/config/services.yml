@@ -5,6 +5,7 @@ parameters:
   class.manager.user          : AppBundle\Service\Manager\UserManager
   class.manager.song          : AppBundle\Service\Manager\SongManager
   class.manager.token         : AppBundle\Service\Manager\ApiTokenManager
+  class.manager.playlist      : AppBundle\Service\Manager\PlayListManager
   class.api.response.listener : AppBundle\Listener\ResponseListener
   class.encryptor             : AppBundle\Service\Encryptor
   class.app.user.provider     : AppBundle\Security\User\ApiUserProvider
@@ -36,6 +37,10 @@ services:
 
     manager.song:
         class : %class.manager.song%
+        arguments: [@doctrine_mongodb]
+
+    manager.playlist:
+        class : %class.manager.playlist%
         arguments: [@doctrine_mongodb]
 
     manager.api_token:

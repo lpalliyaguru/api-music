@@ -144,7 +144,7 @@
     ]
   },
   {
-    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Thathe.MP3",
+    "url": "https://s3-ap-southeast-1.amazonaws.com/musiclocalmp3/chamara-weerasinghe/Saure.MP3",
     "image" : "dist/images/songs/song5.jpg",
     "displayName": "Sayure Ho Hada Ahena Manaye",
     "type": "audio/mpeg",

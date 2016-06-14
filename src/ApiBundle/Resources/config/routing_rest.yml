@@ -13,6 +13,11 @@ Song :
   resource: "ApiBundle:Song"
   name_prefix:  api_
 
+PlayList :
+  type: rest
+  resource: "ApiBundle:PlayList"
+  name_prefix:  api_
+
 Auth :
   type: rest
   resource: "ApiBundle:Auth"
