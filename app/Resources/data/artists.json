@@ -7,5 +7,15 @@
     ],
     "about": "Most famous young singer",
     "image": "dist/images/artists/artist4.jpg"
+  },
+  {
+    "name": "Karunaratne Divulgane",
+    "artistId": "divulgane",
+    "genre": [
+      "Classic"
+    ],
+    "about": "Classical singer, music director",
+    "image": "dist/images/artists/artist4.jpg",
+    "banner": "dist/images/artists/artistbanner1.jpg"
   }
 ]
