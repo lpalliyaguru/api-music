@@ -23,8 +23,9 @@ class SongFixture implements FixtureInterface, ContainerAwareInterface
         $artistManager = $this->container->get('manager.artist');
         $albumManager = $this->container->get('manager.album');
 
-        $dataDir = $this->container->getParameter('kernel.root_dir') . '\Resources\data';
-        $songs = file_get_contents(sprintf('%s\%s', $dataDir, 'song_divulgane.json'));
+        $dataDir = sprintf('%s%sResources%sdata', $this->container->getParameter('kernel.root_dir'), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+        //$songs = file_get_contents(sprintf('%s\%s', $dataDir, 'song_divulgane.json'));
+        $songs = file_get_contents(sprintf('%s%s%s', $dataDir, DIRECTORY_SEPARATOR, 'song_divulgane.json'));
         $songs = json_decode($songs, true);
 
         foreach($songs as $songData) {

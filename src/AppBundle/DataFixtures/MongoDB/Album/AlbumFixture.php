@@ -22,8 +22,9 @@ class AlbumFixture implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-        $dataDir = $this->container->getParameter('kernel.root_dir') . '\Resources\data';
-        $albums = file_get_contents(sprintf('%s\%s', $dataDir, 'albums.json'));
+        $dataDir = sprintf('%s%sResources%sdata', $this->container->getParameter('kernel.root_dir'), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+        //$albums = file_get_contents(sprintf('%s\%s', $dataDir, 'albums.json'));
+        $albums = file_get_contents(sprintf('%s%s%s', $dataDir, DIRECTORY_SEPARATOR, 'albums.json'));
         $albums = json_decode($albums, true);
         $artistManager = $this->container->get('manager.artist');
 

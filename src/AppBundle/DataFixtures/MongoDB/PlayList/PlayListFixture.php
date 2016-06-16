@@ -25,8 +25,9 @@ class PlayListFixture implements FixtureInterface, ContainerAwareInterface
         $songManager = $this->container->get('manager.song');
         $playlistManager = $this->container->get('manager.playlist');
 
-        $dataDir = $this->container->getParameter('kernel.root_dir') . '\Resources\data';
-        $songs = file_get_contents(sprintf('%s\%s', $dataDir, 'playlist_greatest-hits.json'));
+        $dataDir = sprintf('%s%sResources%sdata', $this->container->getParameter('kernel.root_dir'), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+        //$songs = file_get_contents(sprintf('%s\%s', $dataDir, 'playlist_greatest-hits.json'));
+        $songs = file_get_contents(sprintf('%s%s%s', $dataDir, DIRECTORY_SEPARATOR, 'playlist_greatest-hits.json'));
         $playlistJson = json_decode($songs, true);
         $playList = new PlayList();
 
