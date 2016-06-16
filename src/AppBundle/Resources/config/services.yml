@@ -41,7 +41,7 @@ services:
 
     manager.playlist:
         class : %class.manager.playlist%
-        arguments: [@doctrine_mongodb]
+        arguments: [@doctrine_mongodb, @manager.song]
 
     manager.api_token:
         class : %class.manager.token%

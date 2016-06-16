@@ -82,4 +82,26 @@ class PlayListController extends FOSRestController
 
         return $playlist;
     }
+
+    /**
+     * @Rest\Options("playlists/{playlistId}/add-song")
+     * @param Request $request
+     * @return array
+     */
+    public function optionsSongsAction(Request $request, $playlistId) {}
+
+    /**
+     * @Rest\Post("playlists/{playlistId}/add-song")
+     * @param Request $request
+     * @return array
+     */
+    public function postSongsAction(Request $request, $playlistId)
+    {
+        $playlistManager    = $this->get('manager.playlist');
+        $playlist           = $playlistManager->getOneByPlayListId($playlistId);
+        $songIds            = $request->request->get('songs');
+
+        $playlist = $playlistManager->addSongsByIds($playlist, $songIds);
+        return $playlist;
+    }
 }

@@ -8,11 +8,13 @@ class PlayListManager
 {
     protected $documentManager;
     protected $repository;
+    protected $songManager;
 
-    public function __construct(ManagerRegistry $registryManager)
+    public function __construct(ManagerRegistry $registryManager, $songManager)
     {
         $this->documentManager  = $registryManager->getManager();
         $this->repository       = $registryManager->getRepository('AppBundle:PlayList');
+        $this->songManager      = $songManager;
     }
 
     public function getOneByPlayListId($id)
@@ -53,5 +55,15 @@ class PlayListManager
         return true;
     }
 
+    public function addSongsByIds($playList, $songIds)
+    {
+        foreach ($songIds as $songId) {
+            $song = $this->songManager->getOne($songId);
+            $playList->addSong($song);
+        }
 
+        $this->documentManager->persist($playList);
+        $this->documentManager->flush();
+        return $playList;
+    }
 }
