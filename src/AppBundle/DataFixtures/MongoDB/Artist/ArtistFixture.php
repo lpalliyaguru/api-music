@@ -21,8 +21,8 @@ class ArtistFixture implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-        $dataDir = $this->container->getParameter('kernel.root_dir') . '\Resources\data';
-        $artists = file_get_contents(sprintf('%s\%s', $dataDir, 'artists.json'));
+        $dataDir = sprintf('%s%sResources%sdata', $this->container->getParameter('kernel.root_dir'), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+        $artists = file_get_contents(sprintf('%s%s%s', $dataDir, DIRECTORY_SEPARATOR, 'artists.json'));
         $artists = json_decode($artists, true);
         foreach ($artists as $artistData) {
             $artist = new Artist();
