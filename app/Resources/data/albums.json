@@ -8,5 +8,15 @@
     ],
     "artist": "chamara-weerasinghe",
     "image": "images/albums/album1.jpg"
+  },
+  {
+    "name": "Asata asuwana maime",
+    "albumId": "asata-asuwana-maaime",
+    "about": "Asata asuwana maime is one of the best album of Karunaratne Divulgane",
+    "genre": [
+      "Classic"
+    ],
+    "artist": "divulgane",
+    "image": "dist/images/albums/album1.jpg"
   }
-]
+  ]
