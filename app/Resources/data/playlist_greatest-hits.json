@@ -1,8 +1,8 @@
 {
   "name": "Greatest Hits",
   "id" : "greatest-hits",
-  "banner" : "dist/images/playlists/playlistbanner.jpg",
-  "image" : "dist/images/songs/song10.jpg",
+  "banner" : "images/playlists/playlistbanner.jpg",
+  "image" : "images/songs/song10.jpg",
   "songs" : [
     "575999cd555e61ac1c000044",
     "575999cd555e61ac1c00003e",
