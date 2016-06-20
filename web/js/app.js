@@ -1,4 +1,9 @@
 $(function() {
-	console.log('Hello!, I am minified for Grunt');
-	
+	$('#form-create-artist').vaidate({
+        submitHandler : function(form){
+            $(form).ajaxSubmit({
+
+            });
+        }
+    });
 });

@@ -2,3 +2,8 @@ Default:
     resource: "@AdminBundle/Controller/DefaultController.php"
     type:     annotation
     prefix : /
+
+AdminArtists:
+    resource: "@AdminBundle/Controller/ArtistController.php"
+    type:     annotation
+    prefix : /

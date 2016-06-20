@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <a href="#" class="btn btn-success pull-right">Create Artist</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <form role="form" action ="{{ path('adminCreateArtist') }}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Artist Name</label>
+                    {{ form_widget(form.name,  { 'attr': {'class': 'form-control'} }) }}
+                </div>
+                <div class="form-group">
+                    <label>Artist Id</label>
+                    {{ form_widget(form.artistId, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+                <div class="form-group">
+                    <label>About</label>
+                    {{ form_widget(form.about, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+                <div class="form-group">
+                    <label>Image</label>
+                    {{ form_widget(form.imageFile, { 'attr': {'class': 'form-control'},  'required' : false }) }}
+                </div>
+                <div>
+                    {% if artist and artist.image %}
+                    <img src="{{ artist.image }}">
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Banner</label>
+                    {{ form_widget(form.bannerFile, { 'attr': {'class': 'form-control'}, 'required' : false }) }}
+                </div>
+                <div>
+                    {% if artist and artist.banner %}
+                        <img  width="100%" src="{{ artist.banner }}">
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Active</label>
+                    {{ form_widget(form.active) }}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-default">Reset</button>
+                {{ form_end(form) }}
+                {{ form_errors(form) }}
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -116,3 +116,19 @@ fos_rest:
         default_format: json
     view:
         view_response_listener: 'force'
+
+knp_gaufrette:
+    adapters:
+        profile_photos:
+            aws_s3:
+                service_id: 'music.aws_s3.client'
+                bucket_name: %amazon_s3_bucket_name_assets%
+                options:
+                    directory: 'assets'
+                    create: false
+                    acl: 'public-read'
+
+    filesystems:
+        photo_storage:
+            adapter:    profile_photos
+            alias:      photo_storage_filesystem

@@ -15,6 +15,11 @@ class ArtistManager
         $this->repository       = $registryManager->getRepository('AppBundle:Artist');
     }
 
+    public function getOne()
+    {
+
+    }
+
     public function getOneByArtistId($artistId)
     {
         return $this->repository->findOneByArtistId($artistId);

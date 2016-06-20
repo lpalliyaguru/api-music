@@ -6,6 +6,7 @@ parameters:
   class.manager.song          : AppBundle\Service\Manager\SongManager
   class.manager.token         : AppBundle\Service\Manager\ApiTokenManager
   class.manager.playlist      : AppBundle\Service\Manager\PlayListManager
+  class.manager.media         : AppBundle\Service\Manager\MediaManager
   class.api.response.listener : AppBundle\Listener\ResponseListener
   class.encryptor             : AppBundle\Service\Encryptor
   class.app.user.provider     : AppBundle\Security\User\ApiUserProvider
@@ -62,3 +63,20 @@ services:
     secure_api.security.authentication.listener:
         class: %app_secure_api.security.authentication.listener.class%
         arguments: ["@security.context", "@security.authentication.manager"]
+
+    manager.media:
+        class: %class.manager.media%
+        arguments: [@photo_storage_filesystem, %amazon_s3_base_url%]
+
+    music.aws_s3.client:
+        class: Aws\S3\S3Client
+        factory_class: Aws\S3\S3Client
+        factory_method: 'factory'
+        arguments:
+            -   credentials:
+                  key: %amazon_aws_key%
+                  secret: %amazon_aws_secret_key%
+                region : 'ap-southeast-1'
+                version : 'latest'
+                http :
+                   { verify : false }

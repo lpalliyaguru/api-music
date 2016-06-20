@@ -2,12 +2,33 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Music App{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" media="screen" href="/css/bootstrap.min.css" />
+            <link rel="stylesheet" type="text/css" media="screen" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" type="text/css" media="screen" href="/css/metisMenu.min.css" />
+            <link rel="stylesheet" type="text/css" media="screen" href="/css/sb-admin-2.css" />
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
+   <body>
+    <div id="wrapper">
+        {% include '::header.html.twig' %}
+        <div id="page-wrapper">
+            {% block content %}{% endblock %}
+        </div>
+        {% include '::footer.html.twig' %}
+    </div>
+
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/bootstrap.min.js"></script>
+            <script src="/js/sb-admin-2.js"></script>
+            <script src="/js/metisMenu.min.js"></script>
+            <script src="/js/jquery.validate.min.js"></script>
+            <script src="/js/jquery.form.min.js"></script>
+            <script src="/js/app.js"></script>
+        {% endblock %}
     </body>
 </html>

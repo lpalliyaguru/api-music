@@ -14,6 +14,13 @@ use JMS\Serializer\Annotation\SerializedName;
 class Artist
 {
     /**
+     * @Exclude
+     */
+    static $generes = array(
+        'CLASSIC' => 'Classic'
+    );
+
+    /**
      * @ODM\Id
      */
     protected $id;
@@ -72,6 +79,21 @@ class Artist
      * @ODM\ReferenceMany(targetDocument="Album", mappedBy="artist")
      */
     private $albums;
+
+    /**
+     * @Exclude
+     */
+    private $imageFile;
+
+    /**
+     * @Exclude
+     */
+    private $bannerFile;
+
+    /**
+     * @ODM\Boolean
+     */
+    private $active;
 
     public function setId($id)
     {
@@ -193,4 +215,35 @@ class Artist
         $this->followers = $followers;
         return $this;
     }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+    }
+
+    public function getBannerFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setBannerFile($banner)
+    {
+        $this->bannerFile = $banner;
+    }
+
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
 }
