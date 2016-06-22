@@ -29,7 +29,7 @@ class ArtistController extends FOSRestController
     public function getArtistsAction(Request $request)
     {
         $artistsManager   = $this->get('manager.artist');
-        $artists         = $artistsManager->getAll();
+        $artists         = $artistsManager->getAllActiveArtists();
 
         return $artists;
     }

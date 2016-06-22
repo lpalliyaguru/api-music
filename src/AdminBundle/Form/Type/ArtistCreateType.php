@@ -63,14 +63,17 @@ class ArtistCreateType extends AbstractType
 
     public function preSubmitData(FormEvent $event)
     {
-        /*$artist = $event->getData();
-        error_log(json_encode($artist));
-        $this->cache['artis$tId'] = $artist['artistId'];*/
+        $artist = $event->getData();
+        //Set the artist inactive if the chack box is not ticked
+        $this->cache['active'] = !isset($artist['active']) ? false : true;
+
     }
 
     public function postSetData(FormEvent $event)
     {
-        /*$artist = $event->getData();
+        $artist = $event->getData();
+        $artist->setActive($this->cache['active']);
+        /*
         $artist->setArtistId($this->cache['artistId']);*/
         //$property->getLocation()->cleanCoords(); //cleaning the coordinates
         //$property->getAsset()->setImages($this->cache['images']); //setting missing images. This, we will have to use for other arrays as well

@@ -22,9 +22,13 @@ class SongManager
 
     public function update($song)
     {
-        error_log(json_encode($song->getNumOfPlayed()));
         $this->documentManager->persist($song);
         $this->documentManager->flush();
+    }
+
+    public function searchSongs($term)
+    {
+        return $this->repository->searchSongs($term);
     }
 
 }

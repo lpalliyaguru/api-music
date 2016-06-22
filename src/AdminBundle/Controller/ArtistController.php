@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ArtistController extends Controller
 {
     /**
-     * @Route("/artists", name="adminArtists")
+     * @Route("/", name="adminArtists")
      * @Template()
      */
     public function indexAction()
@@ -24,16 +24,14 @@ class ArtistController extends Controller
     }
 
     /**
-     * @Route("/artists/edit/{artistId}", name="adminEditArtist")
+     * @Route("/edit/{artistId}", name="adminEditArtist")
      * @Template()
      */
     public function editAction(Request $request, $artistId)
     {
         $artistManager  = $this->get('manager.artist');
-        $mediaManager = $this->get('manager.media');
+        $mediaManager   = $this->get('manager.media');
         $mainWebSite    = $this->getParameter('app_main_web_site');
-
-        $s3Bucket       = $this->getParameter('amazon_s3_bucket_name_assets');
         $artist         = $artistManager->getOneByArtistId($artistId);
         $options    = array();
         $form       = $this->get('form.factory')->create(new ArtistCreateType(), $artist, $options);
@@ -42,23 +40,24 @@ class ArtistController extends Controller
             $form->submit($request->get($form->getName()), false);
 
             if($form->isValid()) {
-
+                error_log('songs => ' . count($artist->getSongs()));
                 $files = $request->files->get('artist');
+
                 if(!empty($files) && isset($files['imageFile'])) {
                     $imageHiddenURL = $mediaManager->upload($files['imageFile'], 'images', true);
                     $artist->setImage($imageHiddenURL);
-                    error_log('image' . $imageHiddenURL);
                 }
 
                 if(!empty($files) && isset($files['bannerFile'])) {
                     $bannerHiddenURL = $mediaManager->upload($files['bannerFile'], 'images', true);
                     $artist->setBanner($bannerHiddenURL);
-                    error_log('banner ' . $bannerHiddenURL);
-
                 }
                 $artistManager->update($artist);
+                return new JsonResponse(array(
+                    'success' => true,
+                    'message' => 'Updated ' . $artist->getName() . ' \'s profile'
+                ));
             }
-
         }
 
         return array(
@@ -69,16 +68,13 @@ class ArtistController extends Controller
     }
 
     /**
-     * @Route("/artists/create", name="adminCreateArtist")
+     * @Route("/create", name="adminCreateArtist")
      * @Template()
      */
     public function createAction(Request $request)
     {
         $artistManager  = $this->get('manager.artist');
-        $mediaManager = $this->get('manager.media');
-        $mainWebSite    = $this->getParameter('app_main_web_site');
-
-        $s3Bucket       = $this->getParameter('amazon_s3_bucket_name_assets');
+        $mediaManager   = $this->get('manager.media');
         $artist         = new Artist();
         $options    = array();
         $form       = $this->get('form.factory')->create(new ArtistCreateType(), $artist, $options);
@@ -92,55 +88,68 @@ class ArtistController extends Controller
                 if(!empty($files) && isset($files['imageFile'])) {
                     $imageHiddenURL = $mediaManager->upload($files['imageFile'], 'images', true);
                     $artist->setImage($imageHiddenURL);
-                    error_log('image' . $imageHiddenURL);
+
                 }
 
                 if(!empty($files) && isset($files['bannerFile'])) {
                     $bannerHiddenURL = $mediaManager->upload($files['bannerFile'], 'images', true);
                     $artist->setBanner($bannerHiddenURL);
-                    error_log('banner ' . $bannerHiddenURL);
-
                 }
-                $artistManager->update($artist);
-            }
 
+                $artistManager->update($artist);
+                return new JsonResponse(array(
+                    'success'   => true,
+                    'path'      => $this->generateUrl('adminEditArtist', array('artistId' => $artist->getArtistId()))
+                ));
+            }
         }
 
         return array(
-            'form'              => $form->createView(),
-            'artist'            => $artist,
-            'main_web_site'     => $mainWebSite
+            'form'      => $form->createView(),
+            'artist'    => $artist,
         );
     }
 
     /**
-     * @Route("/artists/{artistId}/albums", name="adminArtistAlbums")
+     * @Route("/{artistId}/albums", name="adminArtistAlbums")
      * @Template()
      */
     public function listAlbumsAction(Request $request, $artistId)
     {
-        $artistManager = $this->get('manager.artist');
-        $artist = $artistManager->getOneByArtistId($artistId);
-        return array('artist' => $artist);
+        $artistManager  = $this->get('manager.artist');
+        $artist         = $artistManager->getOneByArtistId($artistId);
+        return array(
+            'artist' => $artist
+        );
     }
+
+    /**
+     * @Route("/artists/{artistId}/albums/create", name="adminCreateAlbums")
+     * @Template()
+     */
+    public function createAlbumAction(Request $request, $artistId)
+    {
+        $artistManager  = $this->get('manager.artist');
+        $artist         = $artistManager->getOneByArtistId($artistId);
+        $albumManager = $this->get('manager.album');
+        //$albums = $albumManager->getByArtist($artist);
+
+        return array(
+            'artist' => $artist
+        );
+    }
+
 
     private function getErrorMessages($form)
     {
         $errors = array();
-
         if ($form->count() > 0) {
             foreach ($form->all() as $child) {
-                /**
-                 * @var \Symfony\Component\Form\Form $child
-                 */
                 if (!$child->isValid()) {
                     $errors[$child->getName()] = $this->getErrorMessages($child);
                 }
             }
         } else {
-            /**
-             * @var \Symfony\Component\Form\FormError $error
-             */
             foreach ($form->getErrors(true) as $key => $error) {
                 $errors[] = $error->getMessage();
             }

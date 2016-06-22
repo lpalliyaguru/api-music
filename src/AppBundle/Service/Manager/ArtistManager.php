@@ -15,9 +15,9 @@ class ArtistManager
         $this->repository       = $registryManager->getRepository('AppBundle:Artist');
     }
 
-    public function getOne()
+    public function getOne($id)
     {
-
+        return $this->repository->find($id);
     }
 
     public function getOneByArtistId($artistId)
@@ -28,6 +28,11 @@ class ArtistManager
     public function getAll()
     {
         return $this->repository->findAll();
+    }
+
+    public function getAllActiveArtists()
+    {
+        return $this->repository->getAllActiveArtists();
     }
 
     public function update($artist)

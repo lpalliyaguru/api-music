@@ -11,6 +11,9 @@ use AppBundle\Document\User;
 /**
  * @ODM\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repository\SongRepository")
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"displayName"="text"})
+ * })
  *
  */
 class Song

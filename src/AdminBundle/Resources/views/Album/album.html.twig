@@ -1,0 +1,67 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+<div class="album-wrapper">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="/images/team3.jpg" class="img-circle">
+            <p>Karunarathne Divulgane</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="email">Name</label>
+                <input type="text" class="form-control" id="">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="email">Album ID</label>
+                <input type="text" class="form-control" id="">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="email">Release</label>
+                <input type="text" class="form-control" id="">
+            </div>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="email">About</label>
+                <textarea class="form-control" name="about"></textarea>
+            </div>
+        </div>
+        <input type="hidden" id="album-id" value="{{ album.id }}">
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="email">Add Songs</label>
+                <select class="song-selector form-control">
+                    <option value="3620194" selected="selected">Select a Song</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table album-song-list" >
+            {% for song in album.songs %}
+                <tr>
+                <td><img src="{{ song.image }}" width="80"></td>
+                <td>{{ song.displayName }}</td></tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

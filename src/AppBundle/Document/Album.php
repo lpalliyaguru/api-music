@@ -42,7 +42,7 @@ class Album
      * @ODM\ReferenceOne(targetDocument="Artist", inversedBy="album")
      */
     protected $artist;
-	
+
 	/**
      * @ODM\Date
 	 * @Type("DateTime")
@@ -50,15 +50,19 @@ class Album
     protected $release;
 
     /**
-     * @ODM\ReferenceMany(targetDocument="Song", mappedBy="album")
+     * @ODM\ReferenceMany(targetDocument="Song")
      */
     private $songs;
-	
 
     /**
      * @ODM\String
      */
     protected $image;
+
+    /**
+     * @ODM\String
+     */
+    protected $banner;
 
     /**
      * @ODM\EmbedOne(targetDocument="Meta")
@@ -96,6 +100,17 @@ class Album
     public function getImage()
     {
         return $this->image;
+    }
+
+    public function setBanner($banner)
+    {
+        $this->banner = $banner;
+        return $this;
+    }
+
+    public function getBanner()
+    {
+        return $this->banner;
     }
 
     public function setAlbumId($albumId)
@@ -146,6 +161,11 @@ class Album
     {
         $this->songs = $songs;
         return $this;
+    }
+
+    public function addSong($song)
+    {
+        $this->songs[] = $song;
     }
 
     public function getSongs()

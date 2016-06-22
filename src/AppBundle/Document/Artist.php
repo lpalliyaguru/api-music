@@ -163,7 +163,7 @@ class Artist
 
     public function getSongs()
     {
-        return $this->image;
+        return $this->songs;
     }
 
     public function setSongs($songs)

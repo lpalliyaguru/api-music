@@ -37,4 +37,30 @@ class SongController extends FOSRestController
 
         return $song;
     }
+
+    /**
+     * @Rest\Options("songs/search")
+     * @param Request $request
+     * @return array
+     */
+    public function optionSongSearchAction(Request $request) { }
+
+    /**
+     * @Rest\Get("songs/search", name="searchSong")
+     * @return array
+     */
+    public function getSongSearchAction(Request $request)
+    {
+        $songManager    = $this->get('manager.song');
+        $term           = $request->query->has('term') ? $request->query->get('term') : '';
+
+        if($term != '') {
+            $songs = $songManager->searchSongs($term);
+        }
+        else {
+            $songs = array();
+        }
+
+        return $songs;
+    }
 }

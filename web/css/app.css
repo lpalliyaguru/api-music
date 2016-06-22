@@ -1,0 +1,15 @@
+.datatable-wrapper{ padding-top: 10px;}
+.error { color: #CA2121;font-size: 12px;}
+
+/* albums */
+.album-wrapper {}
+.album-wrapper .section-banner {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    background: url("../images/front-hero2.png");
+    background-size: cover;
+    text-align: center;
+    position: relative;
+    border-bottom: 5px solid #dedede;
+}
+.album-wrapper .section-banner .content { color: #fff}

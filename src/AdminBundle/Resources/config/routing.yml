@@ -6,4 +6,14 @@ Default:
 AdminArtists:
     resource: "@AdminBundle/Controller/ArtistController.php"
     type:     annotation
-    prefix : /
+    prefix : /artists
+
+AdminAlbums:
+    resource: "@AdminBundle/Controller/AlbumController.php"
+    type:     annotation
+    prefix : /albums
+
+AdminSongs:
+    resource: "@AdminBundle/Controller/SongController.php"
+    type:     annotation
+    prefix : /songs

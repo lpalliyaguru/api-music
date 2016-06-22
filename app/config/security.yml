@@ -37,6 +37,10 @@ security:
             pattern:  ^/api/artists/?([a-z0-9-])*$
             security: false
 
+        songs_open:
+            pattern:  ^/api/songs/search$
+            security: false
+
         artist_followers_open:
             pattern:  ^/api/artists/?([a-z0-9-])+/get-followers$
             security: false

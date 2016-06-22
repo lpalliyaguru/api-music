@@ -9,6 +9,7 @@ parameters:
   class.manager.media         : AppBundle\Service\Manager\MediaManager
   class.api.response.listener : AppBundle\Listener\ResponseListener
   class.encryptor             : AppBundle\Service\Encryptor
+  class.helper                : AppBundle\Service\Helper
   class.app.user.provider     : AppBundle\Security\User\ApiUserProvider
   app_secure_api.security.authentication.provider.class: AppBundle\Security\Authentication\Provider\ApiProvider
   app_secure_api.security.authentication.listener.class: AppBundle\Security\Firewall\ApiListener
@@ -24,7 +25,7 @@ services:
 
     manager.album :
         class : %class.manager.album%
-        arguments : [@doctrine_mongodb]
+        arguments : [@doctrine_mongodb, @manager.song]
 
     listner.api:
         class: %class.api.response.listener%
@@ -51,6 +52,10 @@ services:
     app.encryptor:
         class: %class.encryptor%
         arguments: [%encrypt_salt%]
+
+    app.helper:
+            class: %class.helper%
+            arguments: [@manager.artist]
 
     app.user.provider:
         class: %class.app.user.provider%
