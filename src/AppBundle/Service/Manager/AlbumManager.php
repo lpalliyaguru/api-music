@@ -46,5 +46,14 @@ class AlbumManager
 
     }
 
+    public function removeSongById($album, $songId) {
+        return $this->repository->removeSong($album, $songId);
+    }
 
+    public function update($album)
+    {
+        $this->documentManager->persist($album);
+        $this->documentManager->flush();
+        return $album;
+    }
 }

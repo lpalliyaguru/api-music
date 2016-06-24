@@ -2,62 +2,93 @@
 
 {% block content %}
 <div class="album-wrapper">
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <img src="/images/team3.jpg" class="img-circle">
-            <p>Karunarathne Divulgane</p>
+    <form action="" method="post" enctype="multipart/form-data" id="form-edit-album">
+        <div class="row">
+            <div class="col-md-12">
+               <button type="submit" class="btn btn-xs btn-success pull-right">save</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center section-banner ">
+                <img src="/images/team3.jpg" class="img-circle">
+                <p>Karunarathne Divulgane</p>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="email">Name</label>
-                <input type="text" class="form-control" id="">
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="email">Album ID</label>
-                <input type="text" class="form-control" id="">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="email">Name</label>
+                    {{ form_widget(form.name, {'attr' : {'class':'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="email">Album ID</label>
+                    {{ form_widget(form.albumId, {'attr' : {'class':'form-control', 'disabled':true}}) }}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="email">Release</label>
+                    {{ form_widget(form.release, {'attr' : {'class':'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-md-3">
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="email">Release</label>
-                <input type="text" class="form-control" id="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="email">About</label>
+                    {{ form_widget(form.about, {'attr' : {'class':'form-control'}}) }}
+                </div>
             </div>
+            <input type="hidden" id="album-id" value="{{ album.id }}">
         </div>
-        <div class="col-md-3">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="email">About</label>
-                <textarea class="form-control" name="about"></textarea>
-            </div>
-        </div>
-        <input type="hidden" id="album-id" value="{{ album.id }}">
-    </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="email">Add Songs</label>
-                <select class="song-selector form-control">
-                    <option value="3620194" selected="selected">Select a Song</option>
-                </select>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="email">Add Songs</label>
+                    <select class="song-selector form-control">
+                        <option value="3620194" selected="selected">Select a Song</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-2">
+                {{ form_widget(form.active, {'required' : false}) }} <label>Published</label>
             </div>
         </div>
-    </div>
+        {{ form_widget(form._token) }}
+    </form>
     <div class="row">
         <div class="col-md-12">
             <table class="table album-song-list" >
             {% for song in album.songs %}
                 <tr>
-                <td><img src="{{ song.image }}" width="80"></td>
-                <td>{{ song.displayName }}</td></tr>
+                <td width="40"><img src="{{ song.image }}" width="30"></td>
+                    <td>
+                        <p>{{ song.displayName }}</p>
+                        {% if song.numOfPlayed > 0 %}
+                        <small><i class="fa fa-music"></i> {{ song.numOfPlayed }} times played</small>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a
+                           title="Remove song"
+                           href="#"
+                           class="confirm text-danger"
+                           data-confirm="Are you sure?"
+                           data-callback="updateSongList"
+                           data-href="/admin/albums/{{ album.id }}/songs/delete/{{ song.id }}">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                    </td>
+                </tr>
             {% endfor %}
             </table>
         </div>

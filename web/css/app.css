@@ -13,3 +13,7 @@
     border-bottom: 5px solid #dedede;
 }
 .album-wrapper .section-banner .content { color: #fff}
+#waiting-div {    left: 50%;
+    position: absolute; display: none}
+#waiting-div img {
+    height: 50px;}

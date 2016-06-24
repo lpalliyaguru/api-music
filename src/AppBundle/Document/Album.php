@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 /**
  * @ODM\Document
- * @ODM\Document(repositoryClass="AppBundle\Document\Repository\ArtistRepository")
+ * @ODM\Document(repositoryClass="AppBundle\Document\Repository\AlbumRepository")
  *
  */
 class Album
@@ -44,8 +44,8 @@ class Album
     protected $artist;
 
 	/**
-     * @ODM\Date
-	 * @Type("DateTime")
+     * @ODM\String
+	 *
      */
     protected $release;
 
@@ -68,6 +68,21 @@ class Album
      * @ODM\EmbedOne(targetDocument="Meta")
      */
     protected $__meta;
+
+    /**
+     * @ODM\Boolean
+     */
+    protected $active;
+
+    /**
+     * @Exclude
+     */
+    private $imageFile;
+
+    /**
+     * @Exclude
+     */
+    private $bannerFile;
 
     public function setId($id)
     {
@@ -182,5 +197,47 @@ class Album
     public function getMeta()
     {
         return $this->__meta;
+    }
+
+    public function setActive($active)
+    {
+        $this->active = $active;
+        return $this;
+    }
+
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    public function setRelease($release)
+    {
+        $this->release = $release;
+        return $this;
+    }
+
+    public function getRelease()
+    {
+        return $this->release;
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+    }
+
+    public function getBannerFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setBannerFile($banner)
+    {
+        $this->bannerFile = $banner;
     }
 }

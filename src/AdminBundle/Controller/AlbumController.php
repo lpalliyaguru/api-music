@@ -2,7 +2,7 @@
 
 namespace AdminBundle\Controller;
 
-use AdminBundle\Form\Type\ArtistCreateType;
+use AdminBundle\Form\Type\AlbumCreateType;
 use AppBundle\Document\Artist;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -22,9 +22,35 @@ class AlbumController extends Controller
     {
         $albumManager   = $this->get('manager.album');
         $album          = $albumManager->getOneByAlbumId($albumId);
+        $options        = array();
+        $form           = $this->get('form.factory')->create(new AlbumCreateType(), $album, $options);
 
+        if($request->getMethod() == 'POST') {
+            $form->submit($request->get($form->getName()), false);
+
+            if($form->isValid()) {
+                //$files = $request->files->get('artist');
+
+                /*if(!empty($files) && isset($files['imageFile'])) {
+                    $imageHiddenURL = $mediaManager->upload($files['imageFile'], 'images', true);
+                    $artist->setImage($imageHiddenURL);
+                }
+
+                if(!empty($files) && isset($files['bannerFile'])) {
+                    $bannerHiddenURL = $mediaManager->upload($files['bannerFile'], 'images', true);
+                    $artist->setBanner($bannerHiddenURL);
+                }*/
+                $albumManager->update($album);
+                return new JsonResponse(array(
+                    'success' => true,
+                    'message' => 'Updated ' . $album->getName(),
+                    'albumUrl' => $this->generateUrl('adminAlbum', array('albumId' => $album->getId()))
+                ));
+            }
+        }
         return array(
-            'album' => $album
+            'album' => $album,
+            'form'  => $form->createView()
         );
     }
 
@@ -42,4 +68,18 @@ class AlbumController extends Controller
         return new Response($serializer->serialize($songs, 'json'));
     }
 
+    /**
+     * @Route("/{albumId}/songs/delete/{songId}", name="adminRemoveSongsFromAlbum")
+     * @Template()
+     */
+    public function albumRemoveSongsAction(Request $request, $albumId, $songId)
+    {
+        $albumManager   = $this->get('manager.album');
+        $serializer     = $this->get('jms_serializer');
+
+        $album      = $albumManager->getOne($albumId);
+        $album      = $albumManager->removeSongById($album, $songId);
+
+        return new Response($serializer->serialize($album, 'json'));
+    }
 }
