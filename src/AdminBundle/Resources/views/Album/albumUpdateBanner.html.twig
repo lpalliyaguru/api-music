@@ -1,0 +1,47 @@
+<script>
+    $(function(){
+        $('#modal-album-banner .image-cropper img').Jcrop({
+            setSelect:   [0,0,1200, 320],
+            allowResize : false,
+            allowSelect:false,
+            onChange: updateCords
+        });
+        $('#banner-resize-form').validate({
+            submitHandler : function (form) {
+                $(form).ajaxSubmit({
+                    success : function(data){
+                        $('#modal-album-banner').modal('hide');
+                        $('.album-wrapper .section-banner').css('background' , 'url("'+data.path+'")');
+                    }
+                });
+            }
+        })
+    });
+    function updateCords(c){
+        $('#banner-coors-hidden').val(JSON.stringify(c));
+    }
+
+</script>
+
+<div class="modal fade" id="modal-album-banner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-x-large" role="document">
+        <form action="/admin/albums/{{ album.id }}/banner/resize" method="post" id="banner-resize-form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Upload a banner</h4>
+                </div>
+                <div class="modal-body image-cropper">
+                    <img src="{{ banner }}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <input type="hidden" name="banner-coors-hidden" id="banner-coors-hidden">
+                    <input type="hidden" name="album" id="banner-coors-hidden" value="{{ album.id }}">
+                    <input type="hidden" name="image" value="{{ banner }}">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

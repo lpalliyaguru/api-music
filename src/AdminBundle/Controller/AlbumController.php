@@ -82,4 +82,57 @@ class AlbumController extends Controller
 
         return new Response($serializer->serialize($album, 'json'));
     }
+
+    /**
+     * @Route("/{albumId}/banner", name="albumUpdateBanner")
+     * @Template()
+     */
+    public function albumUpdateBannerAction(Request $request, $albumId)
+    {
+        $albumManager   = $this->get('manager.album');
+        $serializer     = $this->get('jms_serializer');
+        $mediaManager   = $this->get('manager.media');
+        $album      = $albumManager->getOne($albumId);
+        $bannerFile = $request->files->get('banner');
+        $bannerUrl  = $mediaManager->selfUpload($bannerFile,'uploads');
+        //$album->setBanner($bannerUrl);
+        //$albumManager->update($album);
+        return array('banner' => $bannerUrl , 'album' => $album);
+    }
+
+    /**
+     * @Route("/{albumId}/banner/resize", name="albumResizeBanner")
+     * @Template()
+     */
+    public function albumResizeBannerAction(Request $request, $albumId)
+    {
+        $albumManager   = $this->get('manager.album');
+        $serializer     = $this->get('jms_serializer');
+        $mediaManager   = $this->get('manager.media');
+        $apiURL         = $this->getParameter('app_main_api');
+        $webDir     = $this->getParameter('web_dir');
+
+        $album      = $albumManager->getOne($albumId);
+        $bannerFile = $request->request->get('image');
+        $coords = $request->request->get('banner-coors-hidden');
+        $coords = json_decode($coords, true);
+        $realFile = substr($bannerFile, strlen($apiURL . '/uploads/'));
+        $fileInfo = $mediaManager->getFileInfo($realFile);
+        $resizableImage =sprintf('%s%suploads%s%s', $webDir, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $fileInfo['name'] . '_resized.' . $fileInfo['ext']);
+
+        $mediaManager->resizeImage(
+            sprintf('%s%suploads%s%s', $webDir, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $realFile),
+            $resizableImage,
+            $coords
+        );
+
+        $url = $mediaManager->uploadFromLocal($resizableImage, true);
+        $album->setBanner($url);
+        $albumManager->update($album);
+        return new JsonResponse(array(
+            'path' => $url
+        ));
+    }
+
+
 }

@@ -13,7 +13,9 @@
     border-bottom: 5px solid #dedede;
 }
 .album-wrapper .section-banner .content { color: #fff}
-#waiting-div {    left: 50%;
-    position: absolute; display: none}
-#waiting-div img {
-    height: 50px;}
+.album-wrapper .section-banner .upload-banner-trigger { position: absolute; right: 15px;top: 15px;}
+#waiting-div {left: 50%;position: absolute; display: none}
+#waiting-div img {height: 50px;}
+.modal-x-large{width: 100%!important;}
+/*
+#modal-album-banner .image-cropper img {max-width: 100%!important;}*/

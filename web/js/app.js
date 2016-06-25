@@ -10,6 +10,14 @@ $(function() {
         return false;
     });
 
+    $('.upload-banner-trigger').click(function () {
+        var form = $('<form action="/admin/albums/'+$(this).data('target')+'/banner" enctype="multipart/form-data" method="post"></form>');
+        var input = $('<input type="file" name="banner" onchange="showPop(this)"/>');
+        input.appendTo(form);
+        input.trigger('click');
+        return false;
+    });
+
     $(document).on( 'click','.confirm', function(){
         Helper.confirm($(this));
         return false;
@@ -234,3 +242,48 @@ var Helper = {
     }
 
 };
+function showPop(elem)
+{
+
+    var form = $($(elem).closest('form')[0]);
+    var date = new Date();
+    form.ajaxSubmit({
+        beforeSubmit:Helper.showSpinner,
+        success:function(data){
+            Helper.hideSpinner();
+            $('#model-wrapper').html(data);
+            $('#modal-album-banner').modal();
+            /*if(data.success) {
+                var image = data.file_path;
+                $('body').find('#image-cropper').html(
+                    '<p><small class="advise">Drag the square to change position.</small></p>'+
+                    '<img src="'+data.file_path+'?__t='+date.getTime()+'" style="height="/><div class="footer-bar"><input type="button" value="Set the Profile Picture" class="close-dialog"/></div>'
+                );
+                $('#image-cropper').dialog({
+                    'width' : 'auto',
+                    'modal': true,
+                    title: 'Edit Profile Photo'
+
+                });
+
+                $('#image-cropper').closest('.ui-dialog').addClass('left-20');
+                $('#image-cropper').find('.close-dialog').blur();
+                jcrop_api = $('#image-cropper img').Jcrop({
+                    setSelect:   [0,0,302, 352],
+                    allowResize : false,
+                    allowSelect:false,
+                    onChange: updateCords
+                });
+
+            }
+            else {
+                alert(data.message);
+            }*/
+        },
+        error:function(){
+            Helper.hideSpinner();
+            Helper.message_old('error', 'Image is too large. Please try again with different image');
+        }
+    });
+}
+

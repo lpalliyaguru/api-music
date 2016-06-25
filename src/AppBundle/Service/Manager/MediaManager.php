@@ -10,11 +10,13 @@ class MediaManager
 {
     private static $allowedMimeTypes = array('image/jpeg', 'image/png');
     private $filesystem;
+    private $mainWebSite;
 
-    public function __construct(FileSystem $fileSystem, $buketURL)
+    public function __construct(FileSystem $fileSystem, $bucketURL, $mainWebSite)
     {
         $this->filesystem = $fileSystem;
-        $this->bucketURL = $buketURL;
+        $this->bucketURL = $bucketURL;
+        $this->mainWebSite = $mainWebSite;
     }
 
     public function upload(UploadedFile $file, $s3DirName, $fullURL = false)
@@ -35,6 +37,33 @@ class MediaManager
         }
 
         return $filename;
+    }
+
+    public function uploadFromLocal($filePath, $fullURL = false)
+    {
+        $filename = sprintf('%s/%s.%s', 'images', uniqid(), 'jpg');
+        $adapter = $this->filesystem->getAdapter();
+
+        $adapter->setMetadata($filename, array('contentType' => mime_content_type($filePath)));
+        $adapter->write($filename, file_get_contents($filePath));
+
+        if($fullURL) {
+            $filename = $this->bucketURL . $filename;
+        }
+
+        return $filename;
+    }
+
+    public function selfUpload(UploadedFile $file, $dir)
+    {
+        if (!in_array($file->getClientMimeType(), self::$allowedMimeTypes)) {
+            throw new \InvalidArgumentException(sprintf('Files of type %s are not allowed.', $file->getClientMimeType()));
+        }
+
+        $filename = sprintf('%s.%s',uniqid(), $file->getClientOriginalExtension());
+        $file->move($dir, $filename);
+        return $this->mainWebSite . '/' . $dir . '/' . $filename;
+
     }
 
     private function guessMimeType($extension)
@@ -95,5 +124,45 @@ class MediaManager
         } else {
             return 'application/octet-stream';
         }
+    }
+
+    public function resizeImage($srcName, $destName, $cords)
+    {
+        extract($cords);
+        $image = imagecreatefromjpeg($srcName);
+        $toCropArray    = array('x' => $x , 'y' => $y, 'width' => $w, 'height'=> $h);
+        $thumb_im       = $this->cropImage($image, $toCropArray);
+        imagejpeg($thumb_im, $destName, 100);
+        return true;
+    }
+
+    function cropImage($src, array $rect)
+    {
+        $destination = imagecreatetruecolor($rect['width'], $rect['height']);
+        imagecopyresized(
+            $destination,
+            $src,
+            0,
+            0,
+            $rect['x'],
+            $rect['y'],
+            $rect['width'],
+            $rect['height'],
+            $rect['width'],
+            $rect['height']
+        );
+        return $destination;
+    }
+
+    public function getFileInfo($fileName)
+    {
+        /**
+         * @TODO replace with regex
+         */
+        $parts = explode('.', $fileName);
+        return array(
+            'name'  => $parts[0],
+            'ext'   => $parts[1]
+        );
     }
 }
