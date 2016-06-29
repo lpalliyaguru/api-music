@@ -12,10 +12,12 @@ namespace AppBundle\Service;
 class Helper
 {
     private $artistManager;
+    private $albumManager;
 
-    public function __construct($artistManager)
+    public function __construct($artistManager, $albumManager)
     {
-        $this->artistManager = $artistManager;
+        $this->artistManager    = $artistManager;
+        $this->albumManager     = $albumManager;
     }
 
     public function isExistsId($id, $type)
@@ -23,6 +25,12 @@ class Helper
         if($type == 'artist') {
             $artist = $this->artistManager->getOneByArtistId($id);
             if($artist) {
+                return true;
+            }
+        }
+        else if($type == 'album'){
+            $album = $this->albumManager->getOneByAlbumId($id);
+            if($album) {
                 return true;
             }
         }

@@ -35,6 +35,27 @@ class ArtistController extends FOSRestController
     }
 
     /**
+     * @Rest\Options("artists/search")
+     * @param Request $request
+     * @return array
+     */
+    public function optionsArtistSearchAction(Request $request, $id = null) { }
+
+    /**
+     * @Rest\Get("artists/search")
+     * @param Request $request
+     * @return array
+     */
+    public function getArtistSearchAction(Request $request)
+    {
+        $artistsManager   = $this->get('manager.artist');
+        $searchQuery = $request->query->get('term');
+        $artists         = $artistsManager->search($searchQuery);
+
+        return $artists;
+    }
+
+    /**
      * @Rest\Options("artists/{id}")
      * @param Request $request
      * @return array
@@ -53,6 +74,7 @@ class ArtistController extends FOSRestController
 
         return $artists;
     }
+
 
     /**
      * @Rest\Options("artists/{id}/follow")

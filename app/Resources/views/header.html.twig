@@ -233,7 +233,20 @@
                             <a href="{{ path('adminArtists') }}"><i class="fa fa-list"></i> View All</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-plus-circle"></i> Add an Artist</a>
+                            <a href="{{ path('adminCreateArtist') }}"><i class="fa fa-plus-circle"></i> Add an Artist</a>
+                        </li>
+
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Albums<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{{ path('adminAlbums') }}"><i class="fa fa-list"></i> View All</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('adminCreateAlbum') }}"><i class="fa fa-plus-circle"></i> Add an Artist</a>
                         </li>
 
                     </ul>

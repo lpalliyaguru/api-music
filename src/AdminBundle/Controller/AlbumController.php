@@ -3,16 +3,28 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Form\Type\AlbumCreateType;
-use AppBundle\Document\Artist;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Document\Album;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AlbumController extends Controller
+class AlbumController extends BaseController
 {
+    /**
+     * @Route("/", name="adminAlbums")
+     * @Template()
+     */
+    public function adminAlbumsAction()
+    {
+        /**
+         * @TODO Add pagination and search here
+         */
+        $albumManager = $this->get('manager.album');
+        $albums = $albumManager->getAll();
+        return array('albums' => $albums);
+    }
 
     /**
      * @Route("/{albumId}", name="adminAlbum")
@@ -29,17 +41,6 @@ class AlbumController extends Controller
             $form->submit($request->get($form->getName()), false);
 
             if($form->isValid()) {
-                //$files = $request->files->get('artist');
-
-                /*if(!empty($files) && isset($files['imageFile'])) {
-                    $imageHiddenURL = $mediaManager->upload($files['imageFile'], 'images', true);
-                    $artist->setImage($imageHiddenURL);
-                }
-
-                if(!empty($files) && isset($files['bannerFile'])) {
-                    $bannerHiddenURL = $mediaManager->upload($files['bannerFile'], 'images', true);
-                    $artist->setBanner($bannerHiddenURL);
-                }*/
                 $albumManager->update($album);
                 return new JsonResponse(array(
                     'success' => true,
@@ -134,5 +135,44 @@ class AlbumController extends Controller
         ));
     }
 
+    /**
+     * @Route("/create/new", name="adminCreateAlbum")
+     * @Template()
+     */
+    public function adminCreateAlbumAction(Request $request)
+    {
+        $albumManager   = $this->get('manager.album');
+        $artistManager   = $this->get('manager.artist');
+        $album          = new Album();
+        $options        = array();
+        $form           = $this->get('form.factory')->create(new AlbumCreateType(), $album, $options);
 
+        if($request->getMethod() == 'POST') {
+
+            $form->submit($request->get($form->getName()), false);
+
+            if($form->isValid()) {
+
+                $artistIds = $request->request->get('artistIds');
+                foreach($artistIds as $id) {
+                    $artist = $artistManager->getOne($id);
+                    $album->addArtist($artist);
+                }
+                $albumManager->update($album);
+                return new JsonResponse(array(
+                    'success' => true,
+                    'message' => 'Created ' . $album->getName(),
+                    'albumUrl' => $this->generateUrl('adminAlbum', array('albumId' => $album->getAlbumId()))
+                ));
+            }
+            else {
+                return new JsonResponse($this->getErrorMessages($form));
+            }
+        }
+        return array(
+            'album' => $album,
+            'form'  => $form->createView()
+        );
+    }
 }
+

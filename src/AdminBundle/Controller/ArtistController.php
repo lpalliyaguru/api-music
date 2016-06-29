@@ -16,10 +16,15 @@ class ArtistController extends Controller
      * @Route("/", name="adminArtists")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $artistManager = $this->get('manager.artist');
-        $artists = $artistManager->getAll();
+        $artistManager  = $this->get('manager.artist');
+        $artists        = $artistManager->getAll();
+
+        if($request->isXmlHttpRequest()) {
+
+        }
+        //normal request
         return array('artists' => $artists);
     }
 

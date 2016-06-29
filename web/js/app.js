@@ -43,6 +43,9 @@ $(function() {
         }
 
     });
+
+
+
     $('#form-edit-album').validate({
         submitHandler : function(form){
             $(form).ajaxSubmit({
@@ -56,6 +59,34 @@ $(function() {
                 }
             });
         }
+    });
+
+    $('#form-create-album').validate({
+        submitHandler : function(form){
+            $(form).ajaxSubmit({
+                beforeSubmit: function(){
+                    Helper.showSpinner();
+                },
+                success: function(data){
+                    Helper.hideSpinner();
+                    //window.location.href = data.path;
+                    toastr.success(data.message);
+                    window.location.href = data.albumUrl;
+                }
+            });
+        }
+    });
+    $('#form-create-album #album_albumId').blur(function(){
+        var that = $(this);
+        if($(this).val() != '') {
+            $.get('/admin/match-id/' + $(this).val() + '/album', function(data){
+                if(data.exists) {
+                    that.focus();
+                    toastr.error('This artist id exists. Please enter new artist ID');
+                }
+            })
+        }
+
     });
 
     $('#form-edit-artist').validate({
@@ -98,9 +129,46 @@ $(function() {
         },
         escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
         minimumInputLength: 1,
-        templateResult: formatRepo, // omitted for brevity, see the source of this page
-        templateSelection: formatRepoSelection
+        templateResult: formatSongs, // omitted for brevity, see the source of this page
+        templateSelection: formatSongSelection
     });
+
+    $('.album-wrapper .album-artist-list').select2({
+        tags: true,
+        tokenSeparators: [","],
+        multiple: true,
+        ajax: {
+            url: "/api/artists/search",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    term: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                params.page = params.page || 1;
+                var mappedData = $.map(data, function(el) { return el });
+                return {
+                    results: mappedData,
+                    pagination: {
+                        more: (params.page * 30) < data.total_count
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 1,
+        templateResult: formatArtists, // omitted for brevity, see the source of this page
+        templateSelection: formatArtistsSelection
+    });
+
 
     $('.album-wrapper .song-selector').on("select2:selecting", function(e,d) {
         // what you would like to happen
@@ -122,7 +190,8 @@ $(function() {
             }
         });
     });
-    function formatRepo (song) {
+
+    function formatSongs (song) {
         if (song.loading) return song.text;
 
         var markup = "<div class='select2-result-repository clearfix'>" +
@@ -133,8 +202,24 @@ $(function() {
         return markup;
     }
 
-    function formatRepoSelection (repo) {
-        return repo.full_name || repo.text;
+    function formatSongSelection (song) {
+        return song.full_name || song.text;
+    }
+
+    function formatArtists (artist) {
+        if (artist.loading) return artist.text;
+        if(!artist.name) { return null; }
+        var markup = "<div class='select2-result-repository clearfix'>" +
+            "<div class='row'><div class='col-md-2'><img src='"+artist.image+"' style='"+
+            "width: 100%;'></div><div class='col-md-9'><div class='select2-result-repository__title'><p>"+
+            "<b>"+artist.name+"</b></p>"+
+            "</div></div></div></div>";
+
+        return markup;
+    }
+
+    function formatArtistsSelection (artist) {
+        return artist.name || artist.text;
     }
 
 

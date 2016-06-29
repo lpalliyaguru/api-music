@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <div class="album-wrapper">
+        <form action="{{ path('adminCreateAlbum') }}" method="post" enctype="multipart/form-data" id="form-create-album">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label for="email">Artists</label>
+
+                        <select name="artistIds[]" class="form-control album-artist-list">
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="email">Name</label>
+                        {{ form_widget(form.name, {'attr' : {'class':'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="email">Album ID</label>
+                        {{ form_widget(form.albumId, {'attr' : {'class':'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="email">Release</label>
+                        {{ form_widget(form.release, {'attr' : {'class':'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="email">About</label>
+                        {{ form_widget(form.about, {'attr' : {'class':'form-control'}}) }}
+                    </div>
+                </div>
+                <input type="hidden" id="album-id" value="{{ album.id }}">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                            <button type="submit" class="btn btn-success ">Create</button>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.active, {'required' : false}) }} <label>Published</label>
+                </div>
+            </div>
+            {{ form_widget(form._token) }}
+        </form>
+    </div>
+{% endblock %}

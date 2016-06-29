@@ -12,4 +12,16 @@ class ArtistRepository extends DocumentRepository
             'active' => true
         ));
     }
+
+    public function search($query)
+    {
+        $qb = $this->createQueryBuilder('artist');
+        $artists = $qb
+            ->field('name')->equals(new \MongoRegex("/$query/i"))
+            ->getQuery()
+            ->toArray()
+        ;
+
+        return $artists;
+    }
 }

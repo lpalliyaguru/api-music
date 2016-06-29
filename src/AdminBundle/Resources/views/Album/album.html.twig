@@ -11,9 +11,33 @@
         <div class="row">
             <div class="col-md-12 text-center section-banner " style="background:url('{{ album.banner }}');">
                 <a href="#" data-target="{{ album.id }}" class="upload-banner-trigger"><i class="fa fa-camera"></i></a>
-
+{#
                 <img src="/images/team3.jpg" class="img-circle">
-                <p>Karunarathne Divulgane</p>
+                <p>Karunarathne Divulgane</p>#}
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        {% for k, artist in album.artists %}
+                            <li data-target="#carousel-example-generic" data-slide-to="{{ k }}" class="{{   k == 0 ? 'active' : '' }}"></li>
+                        {% endfor %}
+
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        {% for key, artist in album.artists %}
+                            <div class="item {{ key == 0 ? 'active' : '' }}">
+                                <img src="{{ artist.image }}" class="img img-rounded artist-image">
+                                <div class="carousel-caption">
+                                    <h3>{{ artist.name }}</h3>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- Controls -->
+                </div> <!-- Carousel -->
 
             </div>
         </div>

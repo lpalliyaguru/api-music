@@ -39,9 +39,14 @@ class Album
     protected $genre;
 
     /**
-     * @ODM\ReferenceOne(targetDocument="Artist", inversedBy="album")
+     * @ODM\ReferenceMany(targetDocument="Artist")
      */
-    protected $artist;
+    protected $artists;
+
+    /**
+     * @Exclude
+     */
+    protected $artistsIds;
 
 	/**
      * @ODM\String
@@ -150,15 +155,15 @@ class Album
         return $this->genre;
     }
 
-    public function setArtist($artist)
+    public function setArtists($artists)
     {
-        $this->artist = $artist;
+        $this->artists = $artists;
         return $this;
     }
 
-    public function getArtist()
+    public function getArtists()
     {
-        return $this->artist;
+        return $this->artists;
     }
 
     public function setAbout($about)
@@ -239,5 +244,20 @@ class Album
     public function setBannerFile($banner)
     {
         $this->bannerFile = $banner;
+    }
+
+    public function getArtistsIds()
+    {
+        return $this->artistsIds;
+    }
+
+    public function setArtistsIds($ids)
+    {
+        $this->artistsIds = $ids;
+    }
+
+    public function addArtist($artist)
+    {
+        $this->artists[] = $artist;
     }
 }

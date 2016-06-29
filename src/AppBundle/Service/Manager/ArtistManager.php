@@ -41,4 +41,9 @@ class ArtistManager
         $this->documentManager->flush();
         return true;
     }
+
+    public function search($query)
+    {
+        return $this->repository->search($query);
+    }
 }

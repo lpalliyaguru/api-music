@@ -55,7 +55,7 @@ services:
 
     app.helper:
             class: %class.helper%
-            arguments: [@manager.artist]
+            arguments: [@manager.artist, @manager.album]
 
     app.user.provider:
         class: %class.app.user.provider%
