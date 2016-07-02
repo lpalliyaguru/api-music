@@ -45,9 +45,9 @@ class Song
     protected $type;
 
     /**
-     * @ODM\ReferenceOne(targetDocument="Artist", inversedBy="songs")
+     * @ODM\ReferenceMany(targetDocument="Artist")
      */
-    protected $artist;
+    protected $artists;
 
     /**
      * @ODM\ReferenceOne(targetDocument="Album", inversedBy="albums")
@@ -125,15 +125,21 @@ class Song
         return $this->tags;
     }
 
-    public function setArtist($artist)
+    public function setArtist($artists)
     {
-        $this->artist = $artist;
+        $this->artists = $artists;
         return $this;
     }
 
-    public function getArtist()
+    public function addArtist($artist)
     {
-        return $this->artist;
+        $this->artists[] = $artist;
+        return $this;
+    }
+
+    public function getArtists()
+    {
+        return $this->artists;
     }
 
     public function setType($type)

@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap.min.js"></script>
+    <script src="/js/songs.js"></script>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <a href="{{ path('adminAddSong') }}" class="btn btn-success pull-right btn-sm">Add a Song</a>
+    </div>
+</div>
+    <form class="" action="{{ path('adminSearchSongs') }}" id="song-search-form" method="post">
+        <div class="row" >
+            <div class="col-lg-4">
+                <select name="artistIds[]" class="form-control album-artist-list"></select>
+            </div>
+            <div class="col-lg-4">
+                <input name="term" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <input type="submit" class="btn btn-success">
+            </div>
+
+        </div>
+    </form>
+
+<div class="row">
+    <div class="col-lg-12 data-table-wrapper">
+        <div class="table-responsive">
+            <table class="display table table-striped table-bordered table-hover" id="songs-table"></table>
+        </div>
+    </div>
+</div>
+{% endblock %}

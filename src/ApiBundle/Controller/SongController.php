@@ -46,7 +46,7 @@ class SongController extends FOSRestController
     public function optionSongSearchAction(Request $request) { }
 
     /**
-     * @Rest\Get("songs/search", name="searchSong")
+     * @Rest\Get("songs/search", name="ApisearchSong")
      * @return array
      */
     public function getSongSearchAction(Request $request)

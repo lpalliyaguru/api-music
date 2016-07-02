@@ -133,7 +133,7 @@ $(function() {
         templateSelection: formatSongSelection
     });
 
-    $('.album-wrapper .album-artist-list').select2({
+    $('.album-artist-list ').select2({
         tags: true,
         tokenSeparators: [","],
         multiple: true,

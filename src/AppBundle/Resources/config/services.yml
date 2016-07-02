@@ -39,7 +39,7 @@ services:
 
     manager.song:
         class : %class.manager.song%
-        arguments: [@doctrine_mongodb]
+        arguments: [@doctrine_mongodb, @router]
 
     manager.playlist:
         class : %class.manager.playlist%
