@@ -24,3 +24,6 @@
 #modal-album-banner .image-cropper img {max-width: 100%!important;}*/
 #songs-table_wrapper { padding: 24px 0; font-size: 12px;}
 #songs-table_wrapper .song-image{ width:20px; margin: 2px}
+
+/**/
+.song-create-wrapper .song-image { width: 80px}

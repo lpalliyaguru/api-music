@@ -111,7 +111,7 @@ class AlbumController extends BaseController
         $serializer     = $this->get('jms_serializer');
         $mediaManager   = $this->get('manager.media');
         $apiURL         = $this->getParameter('app_main_api');
-        $webDir     = $this->getParameter('web_dir');
+        $webDir         = $this->getParameter('web_dir');
 
         $album      = $albumManager->getOne($albumId);
         $bannerFile = $request->request->get('image');
@@ -127,7 +127,7 @@ class AlbumController extends BaseController
             $coords
         );
 
-        $url = $mediaManager->uploadFromLocal($resizableImage, true);
+        $url = $mediaManager->uploadFromLocal('photo', $resizableImage, true);
         $album->setBanner($url);
         $albumManager->update($album);
         return new JsonResponse(array(

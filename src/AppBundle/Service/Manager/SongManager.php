@@ -3,18 +3,22 @@
 namespace AppBundle\Service\Manager;
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 class SongManager
 {
     protected $documentManager;
     protected $repository;
     protected $router;
+    protected $mediaManager;
 
-    public function __construct(ManagerRegistry $registryManager, $router)
+    public function __construct(ManagerRegistry $registryManager, $router, $mediaManager)
     {
         $this->documentManager  = $registryManager->getManager();
         $this->repository       = $registryManager->getRepository('AppBundle:Song');
         $this->router           = $router;
+        $this->mediaManager     = $mediaManager;
+
     }
 
     public function getOne($id)
@@ -69,10 +73,36 @@ class SongManager
         $artists = array();
         foreach ($song->getArtists() as $artist) {
             $artists[] = array(
-                'name' => $artist->getName(),
-                'url' => '/admin/artist/' , $artist->getArtistId()
+                'name'  => $artist->getName(),
+                'url'   => '/admin/artist/' , $artist->getArtistId()
             );
         }
+
+        return $artists;
     }
 
+    public function manageSongSource(Request $request, $webDir)
+    {
+        if($request->files->has('source_file')) {
+
+        }
+        else {
+            $url            = $request->request->get('source_url');
+            error_log($url);
+            preg_match('/^(.+)\/(.+)\.(mp3|ogg|mp4)$/', $url, $matches);
+
+            if(!isset($matches[1])) { throw new \Exception('URL is not valid!'); }
+
+            $tempLocation   = \sprintf('%s%suploads\songs', $webDir, DIRECTORY_SEPARATOR);
+            $mp3Content     = file_get_contents($url);
+            $extension      = $matches[3];
+            $fileName       = $matches[2];
+            $fullName       = sprintf('%s.%s', $fileName, $extension);
+            $filePath = sprintf('%s%s%s', $tempLocation, DIRECTORY_SEPARATOR, $fullName);
+            file_put_contents($filePath, $mp3Content);
+            //uploading to s3
+            $songURL = $this->mediaManager->uploadFromLocal('song', $filePath, true);
+            return $songURL;
+        }
+    }
 }

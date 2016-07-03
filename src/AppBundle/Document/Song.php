@@ -26,6 +26,11 @@ class Song
     /**
      * @ODM\String
      */
+    protected $songId;
+
+    /**
+     * @ODM\String
+     */
     protected $image;
 
     /**
@@ -42,7 +47,17 @@ class Song
     /**
      * @ODM\String
      */
+    protected $description;
+
+    /**
+     * @ODM\String
+     */
     protected $type;
+
+    /**
+     * @ODM\String
+     */
+    protected $isrc;
 
     /**
      * @ODM\ReferenceMany(targetDocument="Artist")
@@ -60,9 +75,45 @@ class Song
     protected $tags;
 
     /**
+     * @ODM\Collection
+     */
+    protected $genre;
+
+    /**
      * @ODM\Int
      */
     protected $numOfPlayed;
+
+    /**
+     * @ODM\Boolean
+     */
+    protected $isPublished;
+
+    /**
+     * @ODM\String
+     */
+    protected $composer;
+
+    /**
+     * @ODM\String
+     */
+    protected $publisher;
+
+    /**
+     * @ODM\String
+     */
+    protected $release;
+
+    /**
+     * @ODM\String
+     */
+    protected $buyLink;
+
+    /**
+     * Dummy variable for hold artist ids
+     * @Exclude()
+     */
+    protected $artistIds;
 
     /**
      * @ODM\EmbedOne(targetDocument="Meta")
@@ -116,6 +167,7 @@ class Song
 
     public function setTags($tags)
     {
+        error_log(__METHOD__ . ' => ' . gettype($tags));
         $this->tags = $tags;
         return $this;
     }
@@ -175,6 +227,17 @@ class Song
         return $this->numOfPlayed;
     }
 
+    public function setDescription($desc)
+    {
+        $this->description = $desc;
+        return $this;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
     public function setMeta($meta)
     {
         $this->__meta = $meta;
@@ -184,5 +247,88 @@ class Song
     public function getMeta()
     {
         return $this->__meta;
+    }
+
+    public function setComposer($composer)
+    {
+        $this->composer = $composer;
+        return $this;
+    }
+
+    public function getComposer()
+    {
+        return $this->composer;
+    }
+
+    public function setPublisher($publisher)
+    {
+        $this->publisher = $publisher;
+        return $this;
+    }
+
+    public function getPublisher()
+    {
+        return $this->publisher;
+    }
+
+    public function setPublished($flag)
+    {
+        $this->isPublished = $flag;
+        return $this;
+    }
+
+    public function getPublished()
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsrc($number)
+    {
+        $this->isrc = $number;
+        return $this;
+    }
+
+    public function getIsrc()
+    {
+        return $this->isrc;
+    }
+
+    public function setRelease($release)
+    {
+        $this->release = $release;
+        return $this;
+    }
+
+    public function getRelease()
+    {
+        return $this->release;
+    }
+
+    public function setBuylink($link)
+    {
+        $this->buyLink = $link;
+        return $this;
+    }
+
+    public function getBuylink()
+    {
+        return $this->buyLink;
+    }
+
+    public function setGenre($genre)
+    {
+        $this->genre = $genre;
+        return $this;
+    }
+
+    public function getGenre()
+    {
+        return $this->genre;
+    }
+
+    public function addGenre($genre)
+    {
+        $this->genre[] = $genre;
+        return $this;
     }
 }

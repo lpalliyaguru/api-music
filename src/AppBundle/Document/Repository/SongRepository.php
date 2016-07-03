@@ -17,7 +17,6 @@ class SongRepository extends DocumentRepository
         }
 
         if(\is_array($artistsIds)) {
-
             $qb->field('artists.$id')->in($artistsIds);
             $queryable = true;
         }

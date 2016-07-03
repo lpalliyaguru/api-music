@@ -197,8 +197,15 @@ $(function() {
         var markup = "<div class='select2-result-repository clearfix'>" +
                 "<div class='row'><div class='col-md-2'><img src='"+song.image+"' style='"+
                 "width: 100%;'></div><div class='col-md-9'><div class='select2-result-repository__title'><p>"+
-                "<b>"+song.display_name+"</b></p>"+
-                "<p>" + song.artist.name+"</p></div></div></div></div>";
+                "<b>"+song.display_name+"</b></p>";
+        if(song.artists.length > 0) {
+            for (i in song.artists) {
+                markup += "<span>" + song.artists[i].name+"</span>";
+            }
+        }
+        markup += "</div></div></div></div>";
+
+
         return markup;
     }
 

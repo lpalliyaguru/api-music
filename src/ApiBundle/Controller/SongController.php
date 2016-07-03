@@ -52,10 +52,10 @@ class SongController extends FOSRestController
     public function getSongSearchAction(Request $request)
     {
         $songManager    = $this->get('manager.song');
-        $term           = $request->query->has('term') ? $request->query->get('term') : '';
+        $term           = $request->query->get('term') ? $request->query->get('term') : '';
 
         if($term != '') {
-            $songs = $songManager->searchSongs($term);
+            $songs = $songManager->searchSongs($term, false);
         }
         else {
             $songs = array();

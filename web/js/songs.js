@@ -3,7 +3,35 @@ $(function(){
         submitHandler : function (form) {
             showTable(form);
         }
-    })
+    });
+
+    $('#song_tags').select2({
+        tags:true
+    });
+
+    $('#song_genre').select2({
+        tags:true
+    });
+
+    $('#song-create-form').validate({
+        errorPlacement : function(error, elem) {
+            error.appendTo(elem.closest('.form-group'))
+        },
+        submitHandler : function(form){
+            $(form).ajaxSubmit({
+                beforeSubmit : function () {
+                    Helper.showSpinner();
+                },
+                success : function (data) {
+                    Helper.hideSpinner();
+                    toastr.success(data.message)
+                },
+                complete : function(){
+                    Helper.hideSpinner();
+                }
+            });
+        }
+    });
 });
 function showTable(form) {
     $('.data-table-wrapper').show();
@@ -32,7 +60,7 @@ function showTable(form) {
                     for (i in aData.artists) {
                         html += aData.artists[i].name + ',';
                     }
-                    $('td:eq(2)', nRow).html(html);
+                    $('td:eq(2)', nRow).html(html.trim(','));
                 }
 
                 if(aData.links) {

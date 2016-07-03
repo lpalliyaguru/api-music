@@ -3,6 +3,7 @@
 namespace AppBundle\Service\Manager;
 
 
+use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Gaufrette\FileSystem;
 
@@ -11,12 +12,18 @@ class MediaManager
     private static $allowedMimeTypes = array('image/jpeg', 'image/png');
     private $filesystem;
     private $mainWebSite;
+    private $photoStorageFS;
+    private $songStorageFS;
+    private $songBucketURL;
 
-    public function __construct(FileSystem $fileSystem, $bucketURL, $mainWebSite)
+    public function __construct(FilesystemMap $fileSystem, $bucketURL, $songBucketURL, $mainWebSite)
     {
-        $this->filesystem = $fileSystem;
-        $this->bucketURL = $bucketURL;
-        $this->mainWebSite = $mainWebSite;
+        $this->filesystem       = $fileSystem;
+        $this->photoStorageFS   = $fileSystem->get('photo_storage');
+        $this->songStorageFS    = $fileSystem->get('song_storage');
+        $this->bucketURL        = $bucketURL;
+        $this->mainWebSite      = $mainWebSite;
+        $this->songBucketURL    = $songBucketURL;
     }
 
     public function upload(UploadedFile $file, $s3DirName, $fullURL = false)
@@ -27,7 +34,7 @@ class MediaManager
         }
         // Generate a unique filename based on the date and add file extension of the uploaded file
         $filename = sprintf('%s/%s.%s', $s3DirName, uniqid(), $file->getClientOriginalExtension());
-        $adapter = $this->filesystem->getAdapter();
+        $adapter = $this->photoStorageFS->getAdapter();
 
         $adapter->setMetadata($filename, array('contentType' => $file->getClientMimeType()));
         $adapter->write($filename, file_get_contents($file->getPathname()));
@@ -39,19 +46,33 @@ class MediaManager
         return $filename;
     }
 
-    public function uploadFromLocal($filePath, $fullURL = false)
+    public function uploadFromLocal($type, $filePath, $fullURL = false)
     {
-        $filename = sprintf('%s/%s.%s', 'images', uniqid(), 'jpg');
-        $adapter = $this->filesystem->getAdapter();
+        $bucket = null;
+        if($type == 'photo') {
+            $filename = sprintf('%s/%s.%s', 'images', uniqid(), 'jpg');
+            $bucket = $this->bucketURL;
+        }
+        else {
+            $filename = sprintf('%s.%s', uniqid(), 'mp3');
+            $bucket = $this->songBucketURL;
+        }
+        $adapter = $this->prepareAdapter($type);
 
         $adapter->setMetadata($filename, array('contentType' => mime_content_type($filePath)));
         $adapter->write($filename, file_get_contents($filePath));
 
         if($fullURL) {
-            $filename = $this->bucketURL . $filename;
+            $filename = $bucket . $filename;
         }
 
         return $filename;
+    }
+
+    private function prepareAdapter($type)
+    {
+        if($type == 'photo') { return $this->photoStorageFS->getAdapter(); }
+        if($type == 'song') { return $this->songStorageFS->getAdapter(); }
     }
 
     public function selfUpload(UploadedFile $file, $dir)

@@ -1,1 +1,101 @@
-dsfdsf
+{% extends '::base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/songs.js"></script>
+{% endblock %}
+{% block content %}
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <form id="song-create-form" role="form" method="post" action="{{ path("adminAddSong") }}" enctype="multipart/form-data">
+            <div class="panel-body song-create-wrapper">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Title</label>
+                            {{ form_widget(form.displayName, { "attr" : {'class' : 'form-control', 'placeHolder' : 'Enter Song Title'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            {{ form_widget(form.description, { "attr" : {'class' : 'form-control', 'placeHolder' : 'Enter Song Title'}, 'required' : false }) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Genre</label>
+                            {{ form_widget(form.genre, { "attr" : {'class' : 'form-control'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Tags</label>
+                            {{ form_widget(form.tags, { "attr" : {'class' : 'form-control', 'placeHolder' : 'sinhala, kandy, eastern'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Is Published? {{ form_widget(form.published) }}</label>
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {#Here need to add the image uploader#}
+                                    <label>Upload Image</label>
+                                    <input type="file" accept="image/jpeg,image/pjpeg,image/gif,image/png">
+                                </div>
+                                <div class="col-md-6">
+                                    <img class="song-image" src="data:image/png;base64,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" alt="..." class="img-thumbnail">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                    <div class="col-lg-6">
+
+                        <div class="form-group">
+                            <label>Artists</label>
+                            <select name="artistIds[]" class="form-control album-artist-list"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>ISRC</label>
+                            {{ form_widget(form.isrc, { "attr" : {'class' : 'form-control', 'placeHolder' : 'EG: LKDD3021'}, 'required' : false }) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Publisher</label>
+                            {{ form_widget(form.publisher, { "attr" : {'class' : 'form-control'}, 'required' : false }) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Composer</label>
+                            {{ form_widget(form.composer, { "attr" : {'class' : 'form-control'}, 'required' : false }) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Release Date </label>
+                            {{ form_widget(form.release, { "attr" : {'class' : 'form-control'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="basic-url">Buy Link</label>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon3">http://www.</span>
+                                {{ form_widget(form.buyLink, { "attr" : {'class' : 'form-control'}, 'required' : false }) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Song</label>
+                            <input type="file" name="source_file">
+
+                            OR..<br>
+                            <label>Enter MP3 URL</label>
+                            <input type="text"  class="form-control" name="source_url">
+                        </div>
+
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                </div>
+                <!-- /.row (nested) -->
+                <div class="col-sm-10" >
+                    {{ form_end(form) }}
+                    <button type="submit" class="btn btn-primary" >Save</button>
+                    <button type="reset" class="btn btn-default">Reset</button>
+                </div>
+            </div>
+            </form>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+
+{% endblock %}

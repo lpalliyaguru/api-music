@@ -128,8 +128,18 @@ knp_gaufrette:
                     directory: 'assets'
                     create: false
                     acl: 'public-read'
-
+        songs_bucket:
+            aws_s3:
+                service_id: 'music.aws_s3.client'
+                bucket_name: %amazon_s3_bucket_name_mp3%
+                options:
+                    directory: 'songs'
+                    create: false
+                    acl: 'public-read'
     filesystems:
         photo_storage:
             adapter:    profile_photos
             alias:      photo_storage_filesystem
+        song_storage:
+            adapter : songs_bucket
+            alias: song_storage_filesystem

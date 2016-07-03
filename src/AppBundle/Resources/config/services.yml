@@ -39,7 +39,7 @@ services:
 
     manager.song:
         class : %class.manager.song%
-        arguments: [@doctrine_mongodb, @router]
+        arguments: [@doctrine_mongodb, @router, @manager.media]
 
     manager.playlist:
         class : %class.manager.playlist%
@@ -71,7 +71,7 @@ services:
 
     manager.media:
         class: %class.manager.media%
-        arguments: [@photo_storage_filesystem, %amazon_s3_base_url%, %app_main_api%]
+        arguments: [@knp_gaufrette.filesystem_map, %amazon_s3_base_url%, %amazon_s3_songs_url%, %app_main_api%]
 
     music.aws_s3.client:
         class: Aws\S3\S3Client
