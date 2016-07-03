@@ -60,7 +60,8 @@ class MediaManager
         $adapter = $this->prepareAdapter($type);
 
         $adapter->setMetadata($filename, array('contentType' => mime_content_type($filePath)));
-        $adapter->write($filename, file_get_contents($filePath));
+
+        $uploaded = $adapter->write($filename, file_get_contents($filePath));
 
         if($fullURL) {
             $filename = $bucket . $filename;

@@ -23,7 +23,7 @@ parameters:
         - Content-Range
         - Content-Disposition
         - Content-Description
-    web_dir : %kernel.root_dir%\..\web
+    web_dir : %kernel.root_dir%/../web
 
 framework:
     #esi:             ~
