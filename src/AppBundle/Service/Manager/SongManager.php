@@ -93,7 +93,7 @@ class SongManager
 
             if(!isset($matches[1])) { throw new \Exception('URL is not valid!'); }
 
-            $tempLocation   = \sprintf('%s%suploads\songs', $webDir, DIRECTORY_SEPARATOR);
+            $tempLocation   = \sprintf('%s%suploads%ssongs', $webDir, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
             $mp3Content     = file_get_contents($url);
             $extension      = $matches[3];
             $fileName       = $matches[2];
