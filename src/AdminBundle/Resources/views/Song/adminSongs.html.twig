@@ -14,14 +14,22 @@
     <form class="" action="{{ path('adminSearchSongs') }}" id="song-search-form" method="post">
         <div class="row" >
             <div class="col-lg-4">
-                <select name="artistIds[]" class="form-control album-artist-list"></select>
+                <div class="form-group">
+                    <label>Enter Artist Name</label>
+                    <select placeholder="Enter Artist Name" name="artistIds[]" class="form-control album-artist-list">
+                    </select>
+                </div>
             </div>
             <div class="col-lg-4">
-                <input name="term" type="text" class="form-control">
+                <div class="form-group">
+                    <label>Search Text</label>
+                    <input name="term" type="text" class="form-control" placeholder="Search text">
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-4">
+
                 <input type="submit" class="btn btn-success">
             </div>
 

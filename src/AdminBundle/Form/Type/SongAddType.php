@@ -87,7 +87,6 @@ class SongAddType extends AbstractType
     public function preSubmitData(FormEvent $event)
     {
         $song = $event->getData();
-        //Set the artist inactive if the chack box is not ticked
         $this->cache['published']   = !isset($song['published']) ? false : true;
         $this->cache['tags']        = !isset($song['tags']) ? array() : $song['tags'];
     }
@@ -96,12 +95,7 @@ class SongAddType extends AbstractType
     {
         $song = $event->getData();
         $song->setPublished($this->cache['published']);
-        error_log(json_encode($this->cache['tags']));
         $song->setTags($this->cache['tags']);
-        /*
-        $artist->setArtistId($this->cache['artistId']);*/
-        //$property->getLocation()->cleanCoords(); //cleaning the coordinates
-        //$property->getAsset()->setImages($this->cache['images']); //setting missing images. This, we will have to use for other arrays as well
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

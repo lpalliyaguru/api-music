@@ -21,12 +21,14 @@ $(function(){
             $(form).ajaxSubmit({
                 beforeSubmit : function () {
                     Helper.showSpinner();
+                    $(form).find(':submit').button('loading');
                 },
                 success : function (data) {
                     Helper.hideSpinner();
                     toastr.success(data.message)
                 },
                 complete : function(){
+                    $(form).find(':submit').button('reset');
                     Helper.hideSpinner();
                 }
             });

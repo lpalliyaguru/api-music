@@ -60,7 +60,7 @@ class SongManager
                 'played'        => $song->getNumOfPlayed(),
                 'artists'       => $this->getArtistInfo($song),
                 'links'         => array(
-                    'edit'      => '/edit',
+                    'edit'      => $this->router->generate('adminEditSong', array('id' => $song->getId())),
                     'delete'    => '/delete'
                 )
             );
