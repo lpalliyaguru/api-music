@@ -80,7 +80,7 @@ class SongController extends BaseController
                     $artist = $artistManager->getOne($id);
                     $song->addArtist($artist);
                 }
-                if()
+                
                 $resourceURL = $songManager->manageSongSource($request, $webDir);
 
                 $song->setUrl($resourceURL);
