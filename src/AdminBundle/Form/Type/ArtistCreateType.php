@@ -31,7 +31,7 @@ class ArtistCreateType extends AbstractType
             )
             ->add(
                 'about',
-                'text'
+                'textarea'
             )
             /*->add(
                 'genre',
