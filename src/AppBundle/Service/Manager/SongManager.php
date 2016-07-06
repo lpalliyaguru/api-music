@@ -84,11 +84,16 @@ class SongManager
     public function manageSongSource(Request $request, $webDir)
     {
         if($request->files->has('source_file')) {
+            /* file upload */
+            $file = $request->files->get('source_file');
+
+            $uploadedFilePath = $this->mediaManager->selfUpload($file, sprintf('%s/uploads',$webDir));
+            $songURL = $this->mediaManager->uploadFromLocal('song', $uploadedFilePath, true);
+            return $songURL;
 
         }
-        else {
+        else if($request->request->has('source_url') && $request->request->get('source_url') != '') {
             $url            = $request->request->get('source_url');
-            error_log($url);
             preg_match('/^(.+)\/(.+)\.(mp3|ogg|mp4)$/', $url, $matches);
 
             if(!isset($matches[1])) { throw new \Exception('URL is not valid!'); }
@@ -103,6 +108,9 @@ class SongManager
             //uploading to s3
             $songURL = $this->mediaManager->uploadFromLocal('song', $filePath, true);
             return $songURL;
+        }
+        else {
+            return null;
         }
     }
 }

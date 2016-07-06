@@ -9,7 +9,7 @@ use Gaufrette\FileSystem;
 
 class MediaManager
 {
-    private static $allowedMimeTypes = array('image/jpeg', 'image/png');
+    private static $allowedMimeTypes = array('image/jpeg', 'image/png', 'audio/mp3', 'audio/ogg', 'application/octet-stream');
     private $filesystem;
     private $mainWebSite;
     private $photoStorageFS;
@@ -76,7 +76,7 @@ class MediaManager
         if($type == 'song') { return $this->songStorageFS->getAdapter(); }
     }
 
-    public function selfUpload(UploadedFile $file, $dir)
+    public function selfUpload(UploadedFile $file, $dir, $url = false)
     {
         if (!in_array($file->getClientMimeType(), self::$allowedMimeTypes)) {
             throw new \InvalidArgumentException(sprintf('Files of type %s are not allowed.', $file->getClientMimeType()));
@@ -84,7 +84,11 @@ class MediaManager
 
         $filename = sprintf('%s.%s',uniqid(), $file->getClientOriginalExtension());
         $file->move($dir, $filename);
-        return $this->mainWebSite . '/' . $dir . '/' . $filename;
+
+        if($url) {
+            $this->mainWebSite . '/' . $dir . '/' . $filename;
+        }
+        return  $dir . '/' . $filename;
 
     }
 

@@ -47,10 +47,11 @@ class SongAddType extends AbstractType
                 'tags',
                 'choice',
                 array(
-                    'choices'   => array(),
+                    'choices'   => array_combine($options['data']->getTags(), $options['data']->getTags()),
                     'multiple'  => true,
                     'attr'      => array(
-                        'required' => false
+                        'required' => false,
+                        'data-initvalues' => json_encode(array_keys($options['data']->getTags()))
                     )
                 )
             )

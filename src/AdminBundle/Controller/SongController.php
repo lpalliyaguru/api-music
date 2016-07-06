@@ -76,19 +76,26 @@ class SongController extends BaseController
             if($form->isValid()) {
 
                 $artistIds = $request->request->get('artistIds');
-                foreach($artistIds as $id) {
-                    $artist = $artistManager->getOne($id);
-                    $song->addArtist($artist);
+                error_log(json_encode($artistIds));
+                if(\is_array($artistIds)) {
+
+                    $song->setArtist(array());
+                    foreach($artistIds as $id) {
+                        $artist = $artistManager->getOne($id);
+                        $song->addArtist($artist);
+                    }
                 }
-                
+
                 $resourceURL = $songManager->manageSongSource($request, $webDir);
 
-                $song->setUrl($resourceURL);
+                if(!\is_null($resourceURL)) {
+                    $song->setUrl($resourceURL);
+                }
+
                 $songManager->update($song);
                 return new JsonResponse(array(
                     'success' => true,
-                    'message' => 'updated ' . $song->getDisplayName(),
-                    // 'albumUrl' => $this->generateUrl('adminAlbum', array('albumId' => $album->getAlbumId()))
+                    'message' => 'Updated Song: <b>' . $song->getDisplayName() . '</b>',
                 ));
             }
             else {

@@ -16,7 +16,7 @@
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            {{ form_widget(form.description, { "attr" : {'class' : 'form-control', 'placeHolder' : 'Enter Song Title'}, 'required' : false }) }}
+                            {{ form_widget(form.description, { "attr" : {'class' : 'form-control', 'placeHolder' : 'Enter Song Description'}, 'required' : false }) }}
                         </div>
                         <div class="form-group">
                             <label>Genre</label>
@@ -49,7 +49,11 @@
 
                         <div class="form-group">
                             <label>Artists</label>
-                            <select required="required" name="artistIds[]" class="form-control album-artist-list"></select>
+                            <select required="required" name="artistIds[]" class="form-control album-artist-list">
+                                {% for artist in song.artists %}
+                                    <option value="{{ artist.id }}">{{ artist.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>ISRC</label>
@@ -76,11 +80,23 @@
                         </div>
                         <div class="form-group">
                             <label>Upload Song</label>
-                            <input type="file" name="source_file">
+                            <div class="row uploaded-song-wrapper">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info alert-dismissible" role="alert">
+                                        <button type="button" class="close show-upload-area" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <p>Uploaded Song : <a target="_blank" href="{{ song.url }}">{{ song.displayName }}</a></p>
+                                    </div>
+                                </div>
 
-                            OR..<br>
-                            <label>Enter MP3 URL</label>
-                            <input type="text"  class="form-control" name="source_url">
+                            </div>
+                            <div class="row upload-song-wrapper {% if song.url   %}hide{% endif %}">
+                                <div class="col-md-12">
+                                    <input type="file" name="source_file">
+
+                                    OR..<br>
+                                    <label>Enter MP3 URL</label>
+                                    <input type="text"  class="form-control" name="source_url">
+                                </div>
                         </div>
 
                     </div>

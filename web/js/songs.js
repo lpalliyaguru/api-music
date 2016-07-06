@@ -11,6 +11,11 @@ $(function(){
 
     $('#song_genre').select2({
         tags:true
+
+    });
+    $('.show-upload-area').click(function(){
+        $(this).closest('.form-group').find('.uploaded-song-wrapper').hide();
+        $(this).closest('.form-group').find('.upload-song-wrapper').removeClass('hide');
     });
 
     $('#song-create-form').validate({
@@ -108,7 +113,7 @@ function getFormCriteria(d, form){
 function getColumns(){
     return [
         { "data": "displayName", title: "Title" },
-        { "data": "played",     title: "Played Times"},
+        { "data": "played", title: "Played Times"},
         { "data": "artists", title: "Artist(s)"},
         { "data": "links", title : "Actions"}
     ];

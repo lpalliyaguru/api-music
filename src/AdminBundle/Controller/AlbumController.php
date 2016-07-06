@@ -93,9 +93,9 @@ class AlbumController extends BaseController
         $albumManager   = $this->get('manager.album');
         $serializer     = $this->get('jms_serializer');
         $mediaManager   = $this->get('manager.media');
-        $album      = $albumManager->getOne($albumId);
-        $bannerFile = $request->files->get('banner');
-        $bannerUrl  = $mediaManager->selfUpload($bannerFile,'uploads');
+        $album          = $albumManager->getOne($albumId);
+        $bannerFile     = $request->files->get('banner');
+        $bannerUrl      = $mediaManager->selfUpload($bannerFile, 'uploads', true);
         //$album->setBanner($bannerUrl);
         //$albumManager->update($album);
         return array('banner' => $bannerUrl , 'album' => $album);
@@ -115,10 +115,10 @@ class AlbumController extends BaseController
 
         $album      = $albumManager->getOne($albumId);
         $bannerFile = $request->request->get('image');
-        $coords = $request->request->get('banner-coors-hidden');
-        $coords = json_decode($coords, true);
-        $realFile = substr($bannerFile, strlen($apiURL . '/uploads/'));
-        $fileInfo = $mediaManager->getFileInfo($realFile);
+        $coords     = $request->request->get('banner-coors-hidden');
+        $coords     = json_decode($coords, true);
+        $realFile   = substr($bannerFile, strlen($apiURL . '/uploads/'));
+        $fileInfo   = $mediaManager->getFileInfo($realFile);
         $resizableImage =sprintf('%s%suploads%s%s', $webDir, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $fileInfo['name'] . '_resized.' . $fileInfo['ext']);
 
         $mediaManager->resizeImage(
