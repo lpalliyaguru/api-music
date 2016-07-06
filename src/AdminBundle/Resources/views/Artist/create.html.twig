@@ -20,6 +20,7 @@
                 <div class="form-group">
                     <label>Image</label>
                     {{ form_widget(form.imageFile, { 'attr': {'class': 'form-control'},  'required' : false }) }}
+                    <small class="help-block">Minimum size : 250 x 250 px</small>
                 </div>
                 <div>
                     {% if artist and artist.image %}
@@ -29,6 +30,7 @@
                 <div class="form-group">
                     <label>Banner</label>
                     {{ form_widget(form.bannerFile, { 'attr': {'class': 'form-control'}, 'required' : false }) }}
+                    <small class="help-block">Minimum size : 1000 x 400 px</small>
                 </div>
                 <div>
                     {% if artist and artist.banner %}
@@ -38,6 +40,7 @@
                 <div class="form-group">
                     <label>Active</label>
                     {{ form_widget(form.active , {'required' : false }) }}
+
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <button type="reset" class="btn btn-default">Reset</button>

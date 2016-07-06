@@ -120,6 +120,11 @@ class Song
      */
     protected $__meta;
 
+    public function __construct()
+    {
+        $this->tags = array();
+    }
+
     public function setId($id)
     {
         $this->id = $id;
