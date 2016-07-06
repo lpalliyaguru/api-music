@@ -27,10 +27,12 @@ $(function(){
                 beforeSubmit : function () {
                     Helper.showSpinner();
                     $(form).find(':submit').button('loading');
+
                 },
                 success : function (data) {
                     Helper.hideSpinner();
-                    toastr.success(data.message)
+                    toastr.success(data.message);
+                    window.location.href = data.path;
                 },
                 complete : function(){
                     $(form).find(':submit').button('reset');

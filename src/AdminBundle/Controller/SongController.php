@@ -43,9 +43,9 @@ class SongController extends BaseController
                 $song->setUrl($resourceURL);
                 $songManager->update($song);
                 return new JsonResponse(array(
-                    'success' => true,
-                    'message' => 'Created ' . $song->getDisplayName(),
-                   // 'albumUrl' => $this->generateUrl('adminAlbum', array('albumId' => $album->getAlbumId()))
+                    'success'   => true,
+                    'message'   => 'Created ' . $song->getDisplayName(),
+                    'path'      => $this->generateUrl('adminEditSong', array('id' => $song->getId()))
                 ));
             }
             else {
@@ -76,7 +76,7 @@ class SongController extends BaseController
             if($form->isValid()) {
 
                 $artistIds = $request->request->get('artistIds');
-                error_log(json_encode($artistIds));
+
                 if(\is_array($artistIds)) {
 
                     $song->setArtist(array());
@@ -96,6 +96,7 @@ class SongController extends BaseController
                 return new JsonResponse(array(
                     'success' => true,
                     'message' => 'Updated Song: <b>' . $song->getDisplayName() . '</b>',
+
                 ));
             }
             else {
