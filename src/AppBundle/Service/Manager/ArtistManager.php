@@ -8,11 +8,15 @@ class ArtistManager
 {
     protected $documentManager;
     protected $repository;
+    protected $albumManager;
+    protected $songManager;
 
-    public function __construct(ManagerRegistry $registryManager)
+    public function __construct(ManagerRegistry $registryManager, $albumManager, $songManager)
     {
         $this->documentManager  = $registryManager->getManager();
         $this->repository       = $registryManager->getRepository('AppBundle:Artist');
+        $this->albumManager     = $albumManager;
+        $this->songManager      = $songManager;
     }
 
     public function getOne($id)
@@ -30,6 +34,11 @@ class ArtistManager
         return $this->repository->findAll();
     }
 
+    public function getAllByParams($term, $skip, $limit = 15)
+    {
+        return $this->repository->getAllByParams($term, $skip, $limit);
+    }
+
     public function getAllActiveArtists()
     {
         return $this->repository->getAllActiveArtists();
@@ -45,5 +54,23 @@ class ArtistManager
     public function search($query)
     {
         return $this->repository->search($query);
+    }
+
+    public function mapArtistInfo($artists)
+    {
+        $mapped = array();
+        foreach($artists as $artist) {
+            $mapped[] = array(
+                'name' => $artist->getName(),
+                'id' => $artist->getId(),
+                'artistId' => $artist->getArtistId(),
+                'image' => $artist->getImage(),
+                'banner' => $artist->getBanner(),
+                'albums' => $this->albumManager->map($this->albumManager->getAlbumsByArtists(array($artist)))
+
+            );
+        }
+
+        return $mapped;
     }
 }

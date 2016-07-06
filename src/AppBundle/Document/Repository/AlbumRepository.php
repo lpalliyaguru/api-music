@@ -16,4 +16,16 @@ class AlbumRepository extends DocumentRepository
             ->execute();
         return $album;
     }
+
+    public function findByArtists($artistIds)
+    {
+        $qb = $this->createQueryBuilder('album');
+
+        if(\is_array($artistIds)) {
+            $qb->field('artists.$id')->in($artistIds);
+        }
+
+        return $qb->getQuery()->toArray();
+
+    }
 }

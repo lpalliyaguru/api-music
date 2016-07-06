@@ -94,7 +94,7 @@ class SongManager
         }
         else if($request->request->has('source_url') && $request->request->get('source_url') != '') {
             $url            = $request->request->get('source_url');
-            preg_match('/^(.+)\/(.+)\.(mp3|ogg|mp4)$/', $url, $matches);
+            preg_match('/^(.+)\/(.+)\.(mp3|ogg|mp4|MP3)$/', $url, $matches);
 
             if(!isset($matches[1])) { throw new \Exception('URL is not valid!'); }
 

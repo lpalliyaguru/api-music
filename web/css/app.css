@@ -1,6 +1,6 @@
 .datatable-wrapper{ padding-top: 10px;}
 .error { color: #CA2121;font-size: 12px;}
-
+.dataTables_processing {border-color: #ddd; padding: 25px; text-align: center;}
 /* albums */
 .album-wrapper {}
 .album-wrapper .section-banner {
@@ -27,3 +27,6 @@
 
 /**/
 .song-create-wrapper .song-image { width: 80px}
+#artist-table_wrapper { padding: 24px 0; font-size: 12px;}
+#artist-table_wrapper .song-image, #artist-table_wrapper .alt-image { width: 25px;}
+#artist-table_processing

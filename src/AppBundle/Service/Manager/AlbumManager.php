@@ -56,4 +56,29 @@ class AlbumManager
         $this->documentManager->flush();
         return $album;
     }
+
+    public function getAlbumsByArtists($artists)
+    {
+        $artistIds = array();
+        foreach ($artists as $artist) {
+            $artistIds[] = new \MongoId($artist->getId());
+        }
+        return $this->repository->findByArtists($artistIds);
+
+    }
+
+    public function map($albums)
+    {
+        $mapped = array();
+        foreach($albums as $album) {
+            $mapped[] = array(
+                'albumId' => $album->getAlbumId(),
+                'about' => $album->getAbout(),
+                'release' => $album->getRelease(),
+                'active' => $album->getActive(),
+                'name' => $album->getName()
+            );
+        }
+        return $mapped;
+    }
 }

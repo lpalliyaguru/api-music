@@ -27,4 +27,9 @@ class SongRepository extends DocumentRepository
 
         return $songs;
     }
+
+    public function getAllByParams()
+    {
+
+    }
 }

@@ -17,7 +17,7 @@ parameters:
 services:
     manager.artist :
         class : %class.manager.artist%
-        arguments : [@doctrine_mongodb]
+        arguments : [@doctrine_mongodb, @manager.album, @manager.song]
 
     manager.follower :
         class : %class.manager.follower%

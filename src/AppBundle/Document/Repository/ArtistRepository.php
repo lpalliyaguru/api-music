@@ -24,4 +24,18 @@ class ArtistRepository extends DocumentRepository
 
         return $artists;
     }
+
+    public function getAllByParams($searchText, $skip, $limit)
+    {
+        $qb = $this->createQueryBuilder('artist');
+
+        if($searchText) {
+            $qb->field('name')->equals(new \MongoRegex("/$searchText/i"));
+        }
+        $qb
+            ->limit($limit)
+            ->skip($skip)
+        ;
+        return $qb->getQuery()->execute();
+    }
 }

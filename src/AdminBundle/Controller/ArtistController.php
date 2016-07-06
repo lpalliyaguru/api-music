@@ -18,15 +18,37 @@ class ArtistController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $artistManager  = $this->get('manager.artist');
-        $artists        = $artistManager->getAll();
-
-        if($request->isXmlHttpRequest()) {
-
-        }
         //normal request
-        return array('artists' => $artists);
+        return array('artists' => array());
     }
+
+    /**
+     * @Route("/search", name="adminArtistsSearch")
+     * @Template()
+     */
+    public function searchAction(Request $request)
+    {
+        $artistManager  = $this->get('manager.artist');
+
+        $draw       = $request->request->get('draw');
+        $start = $request->request->get('start');
+        $length = $request->request->get('length');
+
+        $searchTerm = $request->request->has('term') ? $request->request->get('term') : false;
+        if(!$searchTerm) {
+            $searchTermArray = $request->request->has('search') ? $request->request->get('search') : false;
+            $searchTerm = is_array($searchTermArray) ? $searchTermArray['value'] : false;
+        }
+        $artists        = $artistManager->getAllByParams($searchTerm, $start, 10);
+        return new JsonResponse(array(
+            'data'              => $artistManager->mapArtistInfo($artists),
+            'draw'              => $draw,
+            'recordsFiltered'   => count($artists),
+            'recordsTotal'      => count($artists)
+        ));
+
+    }
+
 
     /**
      * @Route("/edit/{artistId}", name="adminEditArtist")
