@@ -3,7 +3,7 @@
 namespace AppBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-
+use JMS\Serializer\Annotation\Exclude;
 /**
  * Class Location
  * @ODM\EmbeddedDocument
@@ -21,7 +21,9 @@ class Meta
     const GENRE_LIGHT       = 'light';
     const GENRE_FOLK        = 'folks';
     const GENRE_ROCK        = 'rock';
-
+    /**
+     * @Exclude()
+     */
     public static $genres = array(
         self::GENRE_BAILA       => 'Baila',
         self::GENRE_BLUES       => 'Blues',

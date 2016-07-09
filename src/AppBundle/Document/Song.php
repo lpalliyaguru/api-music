@@ -65,11 +65,6 @@ class Song
     protected $artists;
 
     /**
-     * @ODM\ReferenceOne(targetDocument="Album", inversedBy="albums")
-     */
-    protected $album;
-
-    /**
      * @ODM\Collection
      */
     protected $tags;
@@ -172,7 +167,6 @@ class Song
 
     public function setTags($tags)
     {
-        error_log(__METHOD__ . ' => ' . gettype($tags));
         $this->tags = $tags;
         return $this;
     }
@@ -208,17 +202,6 @@ class Song
     public function getType()
     {
         return $this->type;
-    }
-
-    public function setAlbum($album)
-    {
-        $this->album = $album;
-        return $this;
-    }
-
-    public function getAlbum()
-    {
-        return $this->album;
     }
 
     public function setNumOfPlayed($number)

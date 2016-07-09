@@ -26,7 +26,10 @@ class ArtistManager
 
     public function getOneByArtistId($artistId)
     {
-        return $this->repository->findOneByArtistId($artistId);
+        $artist = $this->repository->findOneByArtistId($artistId);
+        $artistAlbums = $this->albumManager->getAlbumsByArtists(array($artist));
+        $artist->setAlbums($artistAlbums);
+        return $artist;
     }
 
     public function getAll()

@@ -36,7 +36,7 @@ class AlbumFixture implements FixtureInterface, ContainerAwareInterface
             $album->setGenre($albumData['genre']);
             $album->setImage($albumData['image']);
             $album->setAlbumId($albumData['albumId']);
-            $album->setArtist($artist);
+            $album->addArtist($artist);
             $meta = new Meta();
             $meta->created = $meta->updated = new \DateTime();
             $album->setMeta($meta);

@@ -31,10 +31,11 @@ class ArtistController extends Controller
         $artistManager  = $this->get('manager.artist');
 
         $draw       = $request->request->get('draw');
-        $start = $request->request->get('start');
-        $length = $request->request->get('length');
+        $start      = $request->request->get('start');
+        $length     = $request->request->get('length');
 
         $searchTerm = $request->request->has('term') ? $request->request->get('term') : false;
+
         if(!$searchTerm) {
             $searchTermArray = $request->request->has('search') ? $request->request->get('search') : false;
             $searchTerm = is_array($searchTermArray) ? $searchTermArray['value'] : false;
