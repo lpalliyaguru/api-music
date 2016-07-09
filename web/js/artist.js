@@ -36,6 +36,7 @@ $(function(){
             });
         }
     });
+
     $('.album-artist-list ').select2({
         tags: true,
         tokenSeparators: [","],

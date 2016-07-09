@@ -119,9 +119,9 @@ class AlbumController extends BaseController
         $coords     = json_decode($coords, true);
         $realFile   = substr($bannerFile, strlen($apiURL . '/uploads/'));
         $fileInfo   = $mediaManager->getFileInfo($realFile);
-        $resizableImage =sprintf('%s%suploads%s%s', $webDir, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $fileInfo['name'] . '_resized.' . $fileInfo['ext']);
+        $resizableImage = sprintf('%s%suploads%s%s', $webDir, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $fileInfo['name'] . '_resized.' . $fileInfo['ext']);
 
-        $mediaManager->resizeImage(
+        $mediaManager->cropImage(
             sprintf('%s%suploads%s%s', $webDir, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $realFile),
             $resizableImage,
             $coords

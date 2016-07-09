@@ -86,7 +86,7 @@ class MediaManager
         $file->move($dir, $filename);
 
         if($url) {
-            $this->mainWebSite . '/' . $dir . '/' . $filename;
+            return $this->mainWebSite . '/' . $dir . '/' . $filename;
         }
         return  $dir . '/' . $filename;
 
@@ -152,17 +152,17 @@ class MediaManager
         }
     }
 
-    public function resizeImage($srcName, $destName, $cords)
+    public function cropImage($srcName, $destName, $cords)
     {
         extract($cords);
         $image = imagecreatefromjpeg($srcName);
         $toCropArray    = array('x' => $x , 'y' => $y, 'width' => $w, 'height'=> $h);
-        $thumb_im       = $this->cropImage($image, $toCropArray);
+        $thumb_im       = $this->cropSource($image, $toCropArray);
         imagejpeg($thumb_im, $destName, 100);
         return true;
     }
 
-    function cropImage($src, array $rect)
+    function cropSource($src, array $rect)
     {
         $destination = imagecreatetruecolor($rect['width'], $rect['height']);
         imagecopyresized(

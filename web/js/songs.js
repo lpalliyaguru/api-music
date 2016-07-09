@@ -17,7 +17,57 @@ $(function(){
         $(this).closest('.form-group').find('.uploaded-song-wrapper').hide();
         $(this).closest('.form-group').find('.upload-song-wrapper').removeClass('hide');
     });
+    $('.album-artist-list').select2({
+        tags: true,
+        tokenSeparators: [","],
+        multiple: true,
+        ajax: {
+            url: "/api/artists/search",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    term: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                params.page = params.page || 1;
+                var mappedData = $.map(data, function(el) { return el });
+                return {
+                    results: mappedData,
+                    pagination: {
+                        more: (params.page * 30) < data.total_count
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 1,
+        templateResult: formatArtists, // omitted for brevity, see the source of this page
+        templateSelection: formatArtistsSelection
+    });
 
+    function formatArtists (artist) {
+        if (artist.loading) return artist.text;
+        if(!artist.name) { return null; }
+        var markup = "<div class='select2-result-repository clearfix'>" +
+            "<div class='row'><div class='col-md-2'><img src='"+artist.image+"' style='"+
+            "width: 100%;'></div><div class='col-md-9'><div class='select2-result-repository__title'><p>"+
+            "<b>"+artist.name+"</b></p>"+
+            "</div></div></div></div>";
+
+        return markup;
+    }
+
+    function formatArtistsSelection (artist) {
+        return artist.name || artist.text;
+    }
     $('#song-create-form').validate({
         errorPlacement : function(error, elem) {
             error.appendTo(elem.closest('.form-group'))
@@ -41,7 +91,86 @@ $(function(){
             });
         }
     });
+
+    $('#song-edit-form').validate({
+        errorPlacement : function(error, elem) {
+            error.appendTo(elem.closest('.form-group'))
+        },
+        submitHandler : function(form){
+            $(form).ajaxSubmit({
+                beforeSubmit : function () {
+                    Helper.showSpinner();
+                    $(form).find(':submit').button('loading');
+
+                },
+                success : function (data) {
+                    Helper.hideSpinner();
+                    toastr.success(data.message);
+                    //window.location.href = data.path;
+                },
+                complete : function(){
+                    $(form).find(':submit').button('reset');
+                    Helper.hideSpinner();
+                }
+            });
+        }
+    });
+    /* Image upload */
+    /* Image upload */
+    $('.upload-song-image-trigger').click(function () {
+        var form = $('<form action="/admin/songs/'+$(this).data('target')+'/image" enctype="multipart/form-data" method="post"></form>');
+        var input = $('<input type="file" name="image" onchange="showPop(this)"/>');
+        input.appendTo(form);
+        input.trigger('click');
+        return false;
+    });
+
 });
+
+function showPop(elem)
+{
+
+    var form = $($(elem).closest('form')[0]);
+    var date = new Date();
+    form.ajaxSubmit({
+        beforeSubmit:Helper.showSpinner,
+        success:function(data){
+            Helper.hideSpinner();
+            $('#model-wrapper').html(data);
+            $('#modal-album-banner').modal();
+            /*if(data.success) {
+             var image = data.file_path;
+             $('body').find('#image-cropper').html(
+             '<p><small class="advise">Drag the square to change position.</small></p>'+
+             '<img src="'+data.file_path+'?__t='+date.getTime()+'" style="height="/><div class="footer-bar"><input type="button" value="Set the Profile Picture" class="close-dialog"/></div>'
+             );
+             $('#image-cropper').dialog({
+             'width' : 'auto',
+             'modal': true,
+             title: 'Edit Profile Photo'
+
+             });
+
+             $('#image-cropper').closest('.ui-dialog').addClass('left-20');
+             $('#image-cropper').find('.close-dialog').blur();
+             jcrop_api = $('#image-cropper img').Jcrop({
+             setSelect:   [0,0,302, 352],
+             allowResize : false,
+             allowSelect:false,
+             onChange: updateCords
+             });
+
+             }
+             else {
+             alert(data.message);
+             }*/
+        },
+        error:function(){
+            Helper.hideSpinner();
+            toastr.error('error', 'Image is too large. Please try again with different image');
+        }
+    });
+}
 function showTable(form) {
     $('.data-table-wrapper').show();
     Helper.showSpinner();

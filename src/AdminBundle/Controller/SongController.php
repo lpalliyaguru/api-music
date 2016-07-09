@@ -15,7 +15,61 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SongController extends BaseController
 {
+    /**
+     * @Route("/{songId}/image/resize", name="songResizeImage")
+     * @Template()
+     */
+    public function albumResizeBannerAction(Request $request, $songId)
+    {
+        $songManager   = $this->get('manager.song');
+        $serializer     = $this->get('jms_serializer');
+        $mediaManager   = $this->get('manager.media');
+        $apiURL         = $this->getParameter('app_main_api');
+        $webDir         = $this->getParameter('web_dir');
 
+        $song       = $songId !== 'null' ? $songManager->getOne($songId) : null;
+        $imageFile  = $request->request->get('image');
+        $coords     = $request->request->get('image-coors-hidden');
+        $coords     = json_decode($coords, true);
+        $realFile   = substr($imageFile, strlen($apiURL . '/uploads/'));
+        $fileInfo   = $mediaManager->getFileInfo($realFile);
+        $resizableImage = sprintf('%s%suploads%s%s', $webDir, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $fileInfo['name'] . '_resized.' . $fileInfo['ext']);
+
+        $mediaManager->cropImage(
+            sprintf('%s%suploads%s%s', $webDir, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $realFile),
+            $resizableImage,
+            $coords
+        );
+
+        $url = $mediaManager->uploadFromLocal('photo', $resizableImage, true);
+
+        if($song) {
+            $song->setImage($url);
+            $songManager->update($song);
+        }
+
+        return new JsonResponse(array(
+            'path' => $url
+        ));
+    }
+
+    /**
+     * @Route("/{id}/image", name="adminUpdateImage")
+     * @Template()
+     */
+    public function updateSongImageAction(Request $request, $id)
+    {
+        $songManager    = $this->get('manager.song');
+        $serializer     = $this->get('jms_serializer');
+        $mediaManager   = $this->get('manager.media');
+        $song           = $id !== 'null' ? $songManager->getOne($id) : null;
+        $bannerFile     = $request->files->get('image');
+        $imageURL       = $mediaManager->selfUpload($bannerFile, 'uploads', true);
+        return array(
+            'image' => $imageURL ,
+            'song' => $song
+        );
+    }
     /**
      * @Route("/create/new", name="adminAddSong")
      * @Template()
@@ -34,6 +88,7 @@ class SongController extends BaseController
             if($form->isValid()) {
 
                 $artistIds = $request->request->get('artistIds');
+                $image = $request->request->get('image-hidden');
                 foreach($artistIds as $id) {
                     $artist = $artistManager->getOne($id);
                     $song->addArtist($artist);
@@ -41,6 +96,8 @@ class SongController extends BaseController
 
                 $resourceURL = $songManager->manageSongSource($request, $webDir);
                 $song->setUrl($resourceURL);
+                $song->setImage($image);
+
                 $songManager->update($song);
                 return new JsonResponse(array(
                     'success'   => true,
