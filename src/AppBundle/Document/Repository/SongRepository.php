@@ -22,6 +22,7 @@ class SongRepository extends DocumentRepository
         }
 
         if($queryable) {
+            $qb->field('deleted')->notEqual(true);
             $songs = $qb->getQuery()->toArray();
         }
 

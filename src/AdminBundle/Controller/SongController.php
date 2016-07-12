@@ -204,4 +204,21 @@ class SongController extends BaseController
         );
         return new JsonResponse($data);
     }
+
+    /**
+     * @Route("delete/{id}", name="adminDeleteSong")
+     * @return array
+     * @Template()
+     */
+    public function adminDeleteSongAction(Request $request, $id)
+    {
+
+        $songManager = $this->get('manager.song');
+        $song = $songManager->getOne($id);
+        $songManager->deleteSong($song);
+        return new JsonResponse(array(
+            'success' => true,
+            'message' => 'Deleted Successfully'
+        ));
+    }
 }

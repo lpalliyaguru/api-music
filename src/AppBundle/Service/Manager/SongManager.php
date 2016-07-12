@@ -61,7 +61,7 @@ class SongManager
                 'artists'       => $this->getArtistInfo($song),
                 'links'         => array(
                     'edit'      => $this->router->generate('adminEditSong', array('id' => $song->getId())),
-                    'delete'    => '/delete'
+                    'delete'    => $this->router->generate('adminDeleteSong', array('id' => $song->getId()))
                 )
             );
         }
@@ -112,5 +112,11 @@ class SongManager
         else {
             return null;
         }
+    }
+
+    public function deleteSong($song)
+    {
+        $song->setDeleted(true);
+        $this->update($song);
     }
 }

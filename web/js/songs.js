@@ -125,6 +125,7 @@ $(function(){
         return false;
     });
 
+
 });
 
 function showPop(elem)
@@ -138,32 +139,7 @@ function showPop(elem)
             Helper.hideSpinner();
             $('#model-wrapper').html(data);
             $('#modal-album-banner').modal();
-            /*if(data.success) {
-             var image = data.file_path;
-             $('body').find('#image-cropper').html(
-             '<p><small class="advise">Drag the square to change position.</small></p>'+
-             '<img src="'+data.file_path+'?__t='+date.getTime()+'" style="height="/><div class="footer-bar"><input type="button" value="Set the Profile Picture" class="close-dialog"/></div>'
-             );
-             $('#image-cropper').dialog({
-             'width' : 'auto',
-             'modal': true,
-             title: 'Edit Profile Photo'
 
-             });
-
-             $('#image-cropper').closest('.ui-dialog').addClass('left-20');
-             $('#image-cropper').find('.close-dialog').blur();
-             jcrop_api = $('#image-cropper img').Jcrop({
-             setSelect:   [0,0,302, 352],
-             allowResize : false,
-             allowSelect:false,
-             onChange: updateCords
-             });
-
-             }
-             else {
-             alert(data.message);
-             }*/
         },
         error:function(){
             Helper.hideSpinner();
@@ -194,17 +170,17 @@ function showTable(form) {
                 $('td:eq(0)', nRow).html( '<img class="song-image" src="' + aData.image + '"/><a target="_blank" href="' + aData.source+ '">' + aData.displayName + '</a>' );
 
                 if(aData.artists) {
-                    var html = '';
+                    var html = [];
                     for (i in aData.artists) {
-                        html += aData.artists[i].name + ',';
+                        html.push(aData.artists[i].name);
                     }
-                    $('td:eq(2)', nRow).html(html.trim(','));
+                    $('td:eq(2)', nRow).html(html.join(', '));
                 }
 
                 if(aData.links) {
                     var html = '';
                     html += '<a href="'+ aData.links.edit+'" alt="Edit song"><i class="fa-edit fa"></i> </a>';
-                    html += ' | <a href="'+ aData.links.delete+'" alt="Delete song"><i class="fa fa-trash"></i> </a>';
+                    html += ' | <a class="confirm" href="#" data-confirm="Are you sure?" data-callback="deleteSong" data-href="'+ aData.links.delete+'" alt="Delete song"><i class="fa fa-trash"></i> </a>';
                     $('td:eq(3)', nRow).html(html);
                 }
 
@@ -249,3 +225,11 @@ function getColumns(){
         { "data": "links", title : "Actions"}
     ];
 }
+
+function deleteSong(data, e){
+    toastr.success(data.message);
+    e.closest('tr').hide();
+}
+
+
+

@@ -2,11 +2,11 @@
     $(function(){
 
         $api = $(' .image-cropper img').Jcrop({
-            setSelect:   [0,0,250, 150],
+            setSelect:   [0,0,250, 250],
             allowResize : true,
             allowSelect:false,
             onChange: updateCords,
-            aspectRatio: 5/3
+            aspectRatio: 1/1
         });
 
         $('#banner-resize-form').validate({

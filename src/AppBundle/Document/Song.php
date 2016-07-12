@@ -111,6 +111,12 @@ class Song
     protected $artistIds;
 
     /**
+     * @Exclude()
+     * @ODM\Boolean
+     */
+    protected $deleted;
+
+    /**
      * @ODM\EmbedOne(targetDocument="Meta")
      */
     protected $__meta;
@@ -318,5 +324,16 @@ class Song
     {
         $this->genre[] = $genre;
         return $this;
+    }
+
+    public function setDeleted($flag)
+    {
+        $this->deleted = $flag;
+        return $this;
+    }
+
+    public function getDeleted()
+    {
+        return $this->deleted;
     }
 }
