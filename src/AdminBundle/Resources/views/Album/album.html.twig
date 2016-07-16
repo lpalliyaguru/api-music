@@ -1,5 +1,8 @@
 {% extends '::base.html.twig' %}
-
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/album.js"></script>
+{% endblock %}
 {% block content %}
 <div class="album-wrapper">
     <form action="" method="post" enctype="multipart/form-data" id="form-edit-album">
@@ -61,6 +64,19 @@
                 </div>
             </div>
             <div class="col-md-3">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Artists</label>
+                    <select  name="artistIds[]" required="required" multiple class="form-control album-artist-list">
+                        {% for artist in album.artists %}
+                            <option value="{{ artist.id  }}" selected>{{ artist.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
         </div>
         <div class="row">

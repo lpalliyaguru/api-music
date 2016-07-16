@@ -33,6 +33,7 @@ class AlbumController extends BaseController
     public function albumAction(Request $request, $albumId)
     {
         $albumManager   = $this->get('manager.album');
+        $artistManager  = $this->get('manager.artist');
         $album          = $albumManager->getOneByAlbumId($albumId);
         $options        = array();
         $form           = $this->get('form.factory')->create(new AlbumCreateType(), $album, $options);
@@ -41,11 +42,16 @@ class AlbumController extends BaseController
             $form->submit($request->get($form->getName()), false);
 
             if($form->isValid()) {
+                $artistIds = $request->request->get('artistIds');
+                $album->setArtists(array());
+                foreach ($artistIds as $artistId) {
+                    $album->addArtist($artistManager->getOne($artistId));
+                }
                 $albumManager->update($album);
                 return new JsonResponse(array(
                     'success' => true,
                     'message' => 'Updated ' . $album->getName(),
-                    'albumUrl' => $this->generateUrl('adminAlbum', array('albumId' => $album->getId()))
+                    'albumUrl' => $this->generateUrl('adminAlbum', array('albumId' => $album->getAlbumId()))
                 ));
             }
         }
