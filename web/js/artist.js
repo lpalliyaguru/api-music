@@ -3,8 +3,8 @@ $(function(){
         showTable($('#song-search-form'));
         return false;
     });
-    if($('#song-search-form').length > 0) {
-        showTable($('#song-search-form'));
+    if($('#artist-table').length > 0) {
+        showTable($('#artist-table'));
     }
 
     $('#form-create-artist #artist_artistId').blur(function(){
