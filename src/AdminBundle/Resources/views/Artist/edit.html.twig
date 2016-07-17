@@ -1,14 +1,24 @@
 {% extends '::base.html.twig' %}
-
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap.min.js"></script>
+    <script src="/js/artist.js"></script>
+{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ path('adminAddSong') }}" class="btn btn-success pull-right btn-sm"><i class="fa fa-music"></i> Add Songs</a>
+            <a href="{{ path('adminAddSong') }}" class="btn btn-success pull-right btn-sm"><i class="fa fa-music"></i>
+                Add Songs</a>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <form id="form-edit-artist" role="form" action ="{{ path('adminEditArtist', {artistId : artist.artistId}) }}" method="post" enctype="multipart/form-data">
+    <form id="form-edit-artist"
+              role="form"
+              action="{{ path('adminEditArtist', {artistId : artist.artistId}) }}"
+              method="post"
+              enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-6">
                 <div class="form-group">
                     <label>Artist Name</label>
                     {{ form_widget(form.name,  { 'attr': {'class': 'form-control'} }) }}
@@ -27,7 +37,7 @@
                 </div>
                 <div>
                     {% if artist and artist.image %}
-                    <img src="{{ artist.image }}">
+                        <img src="{{ artist.image }}">
                     {% endif %}
                 </div>
                 <div class="form-group">
@@ -36,19 +46,75 @@
                 </div>
                 <div>
                     {% if artist and artist.banner %}
-                        <img  width="60%" src="{{ artist.banner }}">
+                        <img width="60%" src="{{ artist.banner }}">
                     {% endif %}
                 </div>
                 <div class="form-group">
                     <label>Active</label>
-                    {{ form_widget(form.active, { 'required' : false })  }}
+                    {{ form_widget(form.active, { 'required' : false }) }}
+                </div>
+                <div class="form-group">
+
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="reset" class="btn btn-default">Reset</button>
-                {{ form_end(form) }}
-                {{ form_errors(form) }}
-            </form>
-        </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Facebook</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-facebook-square"></i>
+                        </span>
+                        {{ form_widget(form.social.fb, { 'attr': {'class': 'form-control'}}) }}
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Twitter</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-twitter-square"></i>
+                        </span>
+                        {{ form_widget(form.social.tw, { 'attr': {'class': 'form-control'}}) }}
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Google Plus</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-google-plus-square"></i>
+                        </span>
+                        {{ form_widget(form.social.gl, { 'attr': {'class': 'form-control'}}) }}
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Pinterest</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-pinterest-square"></i>
+                        </span>
+                        {{ form_widget(form.social.pn, { 'attr': {'class': 'form-control'}}) }}
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Instagram</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-instagram"></i>
+                        </span>
+                        {{ form_widget(form.social.in, { 'attr': {'class': 'form-control'}}) }}
+
+                    </div>
+                </div>
+            </div>
     </div>
+    <button type="submit" class="btn btn-primary" data-loading-text="Saving"><i class="fa fa-save"></i> Submit</button>
+    <button type="reset" class="btn btn-default">Reset</button>
+    {{ form(form._token) }}
+    {{ form_errors(form) }}
+    </form>
 {% endblock %}

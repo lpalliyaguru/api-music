@@ -1,8 +1,14 @@
 {% extends '::base.html.twig' %}
-
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap.min.js"></script>
+    <script src="/js/artist.js"></script>
+{% endblock %}
 {% block content %}
     <div class="album-wrapper">
-        <form action="{{ path('adminCreateAlbum') }}" method="post" enctype="multipart/form-data" id="form-create-album">
+        <form action="{{ path('adminCreateAlbum') }}" method="post" enctype="multipart/form-data"
+              id="form-create-album">
 
             <div class="row">
                 <div class="col-md-8">
@@ -49,7 +55,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                            <button type="submit" class="btn btn-success ">Create</button>
+                    <button type="submit" class="btn btn-success" data-loading-text="Saving..">Create</button>
                 </div>
                 <div class="col-md-4">
 

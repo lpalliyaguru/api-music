@@ -246,4 +246,14 @@ class Artist
         $this->active = $active;
     }
 
+    public function getSocial()
+    {
+        return $this->social;
+    }
+
+    public function setSocial($social)
+    {
+        $this->social = $social;
+        return this;
+    }
 }

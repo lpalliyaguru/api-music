@@ -23,36 +23,8 @@ $(function() {
         return false;
     });
 
-    $('#form-edit-album').validate({
-        submitHandler : function(form){
-            $(form).ajaxSubmit({
-                beforeSubmit: function(){
-                    Helper.showSpinner();
-                },
-                success: function(data){
-                    Helper.hideSpinner();
-                    //window.location.href = data.path;
-                    toastr.success(data.message);
-                }
-            });
-        }
-    });
 
-    $('#form-create-album').validate({
-        submitHandler : function(form){
-            $(form).ajaxSubmit({
-                beforeSubmit: function(){
-                    Helper.showSpinner();
-                },
-                success: function(data){
-                    Helper.hideSpinner();
-                    //window.location.href = data.path;
-                    toastr.success(data.message);
-                    window.location.href = data.albumUrl;
-                }
-            });
-        }
-    });
+
     $('#form-create-album #album_albumId').blur(function(){
         var that = $(this);
         if($(this).val() != '') {

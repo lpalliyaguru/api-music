@@ -1,5 +1,10 @@
 {% extends '::base.html.twig' %}
-
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap.min.js"></script>
+    <script src="/js/artist.js"></script>
+{% endblock %}
 {% block content %}
 
     <div class="row">

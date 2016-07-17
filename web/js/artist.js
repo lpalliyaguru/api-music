@@ -3,8 +3,9 @@ $(function(){
         showTable($('#song-search-form'));
         return false;
     });
-
-    showTable($('#song-search-form'));
+    if($('#song-search-form').length > 0) {
+        showTable($('#song-search-form'));
+    }
 
     $('#form-create-artist #artist_artistId').blur(function(){
         if($(this).val() != '') {
@@ -19,9 +20,17 @@ $(function(){
     $('#form-edit-artist').validate({
         submitHandler : function(form){
             $(form).ajaxSubmit({
+                beforeSubmit: function(){
+                    $(form).find(':submit').button('loading');
+                    Helper.showSpinner();
+                },
                 success: function(data){
                     //window.location.href = data.path;
                     toastr.success(data.message)
+                },
+                complete: function(){
+                    Helper.hideSpinner();
+                    $(form).find(':submit').button('reset');
                 }
             });
         }

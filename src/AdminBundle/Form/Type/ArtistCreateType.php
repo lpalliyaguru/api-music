@@ -45,6 +45,10 @@ class ArtistCreateType extends AbstractType
                 )
             )*/
             ->add(
+                'social',
+                new SocialType()
+                )
+            ->add(
                 'imageFile',
                 'file'
             )

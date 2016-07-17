@@ -1,4 +1,45 @@
 $(function(){
+
+    $('#form-edit-album').validate({
+        submitHandler : function(form){
+            $(form).ajaxSubmit({
+                beforeSubmit: function(){
+                    Helper.showSpinner();
+                    $(form).find(':submit').button('loading');
+                },
+                success: function(data){
+
+                    //window.location.href = data.path;
+                    toastr.success(data.message);
+                },
+                complete : function () {
+                    Helper.hideSpinner();
+                    $(form).find(':submit').button('reset');
+                }
+            });
+        }
+    });
+
+    $('#form-create-album').validate({
+        submitHandler : function(form){
+            $(form).ajaxSubmit({
+                beforeSubmit: function(){
+                    $(form).find(':submit').button('loading');
+                    Helper.showSpinner();
+                },
+                success: function(data){
+
+                    //window.location.href = data.path;
+                    toastr.success(data.message);
+                    window.location.href = data.albumUrl;
+                },
+                complete : function () {
+                    Helper.hideSpinner();
+                    $(form).find(':submit').button('reset');
+                }
+            });
+        }
+    });
     $('.album-artist-list').select2({
         tags: true,
         multiple: true,
