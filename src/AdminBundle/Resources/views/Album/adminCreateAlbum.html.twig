@@ -3,7 +3,7 @@
     {{ parent() }}
     <script src="/js/jquery.dataTables.min.js"></script>
     <script src="/js/dataTables.bootstrap.min.js"></script>
-    <script src="/js/artist.js"></script>
+    <script src="/js/album.js"></script>
 {% endblock %}
 {% block content %}
     <div class="album-wrapper">
@@ -14,10 +14,7 @@
                 <div class="col-md-8">
                     <div class="form-group">
                         <label for="email">Artists</label>
-
-                        <select name="artistIds[]" class="form-control album-artist-list">
-
-                        </select>
+                        <select required="required" name="artistIds[]" class="form-control album-artist-list"></select>
                     </div>
                 </div>
             </div>
@@ -47,7 +44,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="email">About</label>
-                        {{ form_widget(form.about, {'attr' : {'class':'form-control'}}) }}
+                        {{ form_widget(form.about, {'attr' : {'class':'form-control'}, 'required' : false}) }}
                     </div>
                 </div>
                 <input type="hidden" id="album-id" value="{{ album.id }}">
@@ -55,7 +52,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-success" data-loading-text="Saving..">Create</button>
+                    <button type="submit" class="btn btn-success" data-loading-text="Saving.."><i class="fa fa-upload"></i> Create</button>
                 </div>
                 <div class="col-md-4">
 
