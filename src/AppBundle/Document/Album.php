@@ -270,4 +270,14 @@ class Album
             $this->image = 'https://s3-ap-southeast-1.amazonaws.com/musicapplkassets/assets/images/album-default.jpg';
         }
     }
+
+    /**
+     * @ODM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        if(\is_null($this->image)) {
+            $this->image = 'https://s3-ap-southeast-1.amazonaws.com/musicapplkassets/assets/images/album-default.jpg';
+        }
+    }
 }
