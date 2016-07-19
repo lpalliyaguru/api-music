@@ -46,7 +46,10 @@ class AuthController extends FOSRestController
                 $accessToken = $tokenManager->createNewToken($user, $userAgent);
             }
             else {
-                throw $this->createAccessDeniedException('Access Deined');
+                return array(
+                    'success' => false,
+                    'message' => 'Login failed. Username or password is incorrect.'
+                );
             }
 
             return array( 'access_token' => $accessToken, 'success' => true, 'user' => $user);
@@ -54,7 +57,7 @@ class AuthController extends FOSRestController
 
         return array(
             'success' => false,
-            'message' => 'Login failed'
+            'message' => 'Login failed. Username or password is incorrect.'
         );
 
     }

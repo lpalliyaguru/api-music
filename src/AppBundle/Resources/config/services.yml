@@ -21,7 +21,7 @@ services:
 
     manager.follower :
         class : %class.manager.follower%
-        arguments : [@doctrine_mongodb, @manager.user]
+        arguments : [@doctrine_mongodb, @manager.user, @manager.artist]
 
     manager.album :
         class : %class.manager.album%

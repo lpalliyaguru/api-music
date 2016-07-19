@@ -9,13 +9,15 @@ class FollowerManager
 {
     protected $documentManager;
     protected $repository;
+    protected $artistManager;
     protected $userManager;
 
-    public function __construct(ManagerRegistry $registryManager, $userManager)
+    public function __construct(ManagerRegistry $registryManager, $userManager, $artistManager)
     {
         $this->documentManager  = $registryManager->getManager();
         $this->repository       = $registryManager->getRepository('AppBundle:Follower');
         $this->userManager      = $userManager;
+        $this->artistManager    = $artistManager;
     }
 
     public function follow($type, $who, $whom) {
@@ -52,6 +54,13 @@ class FollowerManager
         return $this->remapFollowers($followers);
     }
 
+    public function getFollowing($type, $who, $page = 1)
+    {
+        $followings = $this->repository->getFollowings($type, $who, $page = 1);
+        return $this->remapFollowings($followings);
+
+    }
+
     private function remapFollowers($rawFollowers)
     {
         $mappedFollowers = array();
@@ -59,5 +68,17 @@ class FollowerManager
             $mappedFollowers[] = $this->userManager->getOne($rawFollower->getWho());
         }
         return $mappedFollowers;
+    }
+
+    private function remapFollowings($rawFollowings)
+    {
+        $mappedFollowings = array();
+
+        foreach( $rawFollowings as $rawFollowing) {
+            error_log(' whom ' .$rawFollowing->getWhom());
+            $mappedFollowings[] = $this->artistManager->getOne($rawFollowing->getWhom());
+        }
+
+        return $mappedFollowings;
     }
 }

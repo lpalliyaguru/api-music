@@ -23,6 +23,23 @@ class FollowerRepository extends DocumentRepository
         return $followers;
     }
 
+    public function getFollowings($type, $who, $page = 1)
+    {
+        $qb = $this->createQueryBuilder('AppBundle:Follower');
+        $limit = 10;
+        $skip = $limit * $page - $limit;
+
+        $followers = $qb
+            ->field('type')->equals($type)
+            ->field('who')->equals($who->getId())
+            ->limit($limit)
+            ->skip($skip)
+            ->getQuery()
+            ->execute()
+        ;
+        return $followers;
+    }
+
     public function removeFollower($type, $who, $whom)
     {
         $qb = $this->createQueryBuilder('AppBundle:Follower');

@@ -22,3 +22,8 @@ Auth :
   type: rest
   resource: "ApiBundle:Auth"
   name_prefix:  api_
+
+User :
+  type: rest
+  resource: "ApiBundle:User"
+  name_prefix:  api_

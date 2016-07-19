@@ -35,6 +35,6 @@ class UserManager
 
     public function getOne($id)
     {
-        return $this->repository->find($id);
+        return $this->repository->find(new \MongoId($id));
     }
 }
