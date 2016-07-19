@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation\Type;
 /**
  * @ODM\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repository\AlbumRepository")
- *
+ * @ODM\HasLifecycleCallbacks
  */
 class Album
 {
@@ -259,5 +259,15 @@ class Album
     public function addArtist($artist)
     {
         $this->artists[] = $artist;
+    }
+
+    /**
+     * @ODM\PrePersist
+     */
+    public function prePersist()
+    {
+        if(\is_null($this->image)) {
+            $this->image = 'https://s3-ap-southeast-1.amazonaws.com/musicapplkassets/assets/images/album-default.jpg';
+        }
     }
 }
