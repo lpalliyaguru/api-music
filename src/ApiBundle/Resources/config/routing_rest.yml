@@ -1,3 +1,8 @@
+Default :
+  type: rest
+  resource: "ApiBundle:Default"
+  name_prefix:  api_
+
 Albums :
   type: rest
   resource: "ApiBundle:Album"
