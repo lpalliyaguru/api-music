@@ -254,6 +254,6 @@ class Artist
     public function setSocial($social)
     {
         $this->social = $social;
-        return this;
+        return $this;
     }
 }

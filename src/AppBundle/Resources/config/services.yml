@@ -7,6 +7,7 @@ parameters:
   class.manager.token         : AppBundle\Service\Manager\ApiTokenManager
   class.manager.playlist      : AppBundle\Service\Manager\PlayListManager
   class.manager.media         : AppBundle\Service\Manager\MediaManager
+  class.manager.auth          : AppBundle\Service\Manager\AuthManager
   class.api.response.listener : AppBundle\Listener\ResponseListener
   class.encryptor             : AppBundle\Service\Encryptor
   class.helper                : AppBundle\Service\Helper
@@ -72,6 +73,10 @@ services:
     manager.media:
         class: %class.manager.media%
         arguments: [@knp_gaufrette.filesystem_map, %amazon_s3_base_url%, %amazon_s3_songs_url%, %app_main_api%]
+
+    manager.auth:
+        class: %class.manager.auth%
+        arguments : [%facebook%, @logger]
 
     music.aws_s3.client:
         class: Aws\S3\S3Client

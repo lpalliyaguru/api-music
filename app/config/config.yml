@@ -24,6 +24,10 @@ parameters:
         - Content-Disposition
         - Content-Description
     web_dir : %kernel.root_dir%/../web
+    facebook:
+        app_id : %fb_app_id%
+        app_secret : %fb_app_secret%
+        default_graph_version : v2.8
 
 framework:
     #esi:             ~

@@ -49,6 +49,10 @@ security:
             pattern:  ^/api/login$
             security: false
 
+        auth_social:
+            pattern:  ^/api/auth/social
+            security: false
+
         session:
             pattern:  ^/api/session$
             security: false

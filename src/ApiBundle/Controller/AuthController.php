@@ -4,8 +4,10 @@ namespace ApiBundle\Controller;
 
 //use AppBundle\Document\AccessToken;
 use AppBundle\Document\User;
+use AppBundle\Form\AuthSocialType;
 use AppBundle\Form\RegisterType;
 
+use Facebook\Facebook;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,6 +105,48 @@ class AuthController extends FOSRestController
             'success'   => false,
             'errors'    => $form->getErrors(true, false)
         );
+    }
+    /**
+     * @Rest\Options("auth/social")
+     */
+    public function optionsAuthSocialAction(Request $request) {  }
 
+    /**
+     * @Rest\Post("auth/social")
+     */
+    public function postAuthSocialAction(Request $request)
+    {
+        $form           = $this->get('form.factory')->create(new AuthSocialType());
+        $authManager    = $this->get('manager.auth');
+        $userManager    = $this->get('manager.user');
+        $tokenManager   = $this->get('manager.api_token');
+        $userAgent      = $request->headers->get('User-Agent');
+        $form->handleRequest($request);
+
+        if($form->isValid()) {
+            $formData = $form->getData();
+            $provider = $formData['provider'];
+            if($provider == 'facebook') {
+                if($authManager->authenticateFb($formData['token'], $formData['uid'])) {
+                    $user = $userManager->getOneByUsername($formData['uid']);
+                    $profilePic = $authManager->getFBProfilePicture($formData['token']);
+                    if(is_null($user)) {
+                        $user = $userManager->populateUser($formData);
+                    }
+                    $user->setProfilePic($profilePic);
+                    $userManager->save($user);
+                    $token = $tokenManager->createNewToken($user, $userAgent);
+                }
+            }
+            return array(
+                'access_token' => $token,
+                'user'  => $user,
+                'success' => true
+            );
+        }
+        return array(
+            'success'   => false,
+            'message'   => 'Unable to process data. Please try again.'
+        );
     }
 }

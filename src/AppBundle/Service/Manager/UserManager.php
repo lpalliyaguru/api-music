@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service\Manager;
 
+use AppBundle\Document\User;
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 
 class UserManager
@@ -36,5 +37,15 @@ class UserManager
     public function getOne($id)
     {
         return $this->repository->find(new \MongoId($id));
+    }
+
+    public function populateUser($data)
+    {
+        $user = new User();
+        $user->setName($data['name']);
+        $user->setEmail($data['email']);
+        $user->setUsername(isset($data['username']) ? $data['username'] : $data['uid']);
+        $user->setProfilePic($data['imageUrl']);
+        return $user;
     }
 }

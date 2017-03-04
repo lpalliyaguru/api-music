@@ -39,7 +39,8 @@
         "knplabs/gaufrette" : "0.2.0",
         "knplabs/knp-gaufrette-bundle": "0.2.0",
         "aws/aws-sdk-php": "3.11.0",
-        "firebase/php-jwt": "^3.0"
+        "firebase/php-jwt": "^3.0",
+        "facebook/graph-sdk": "^5.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
